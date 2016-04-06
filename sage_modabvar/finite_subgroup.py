@@ -97,20 +97,21 @@ TESTS::
 #                  http://www.gnu.org/licenses/
 #*****************************************************************************
 
-from sage.modular.abvar.torsion_point import TorsionPoint
-from sage.modules.module import Module
+# Imports from Sage
+
+from sage.modules.module      import Module
 from sage.modules.free_module import is_FreeModule
-from sage.structure.element import ModuleElement
-from sage.structure.gens_py import abelian_iterator
-from sage.structure.sequence import Sequence
-from sage.rings.all import QQ, ZZ, QQbar, Integer
-from sage.misc.all  import prod
-from sage.structure.element import get_coercion_model
+from sage.structure.element   import ModuleElement
+from sage.structure.gens_py   import abelian_iterator
+from sage.structure.sequence  import Sequence
+from sage.rings.all           import QQ, ZZ, QQbar, Integer
+from sage.misc.all            import prod
+from sage.structure.element   import get_coercion_model
+from sage.all                 import gcd, lcm
 
-from sage.all import gcd, lcm
-
+# Local imports in this module
 import abvar as abelian_variety
-
+from   torsion_point import TorsionPoint
 
 class FiniteSubgroup(Module):
     r"""
@@ -127,12 +128,13 @@ class FiniteSubgroup(Module):
     This is an abstract base class, so there are no instances of
     this class itself::
 
+        sage: from sage_modabvar import J0
         sage: A = J0(37)
         sage: G = A.torsion_subgroup(3); G
         Finite subgroup with invariants [3, 3, 3, 3] over QQ of Abelian variety J0(37) of dimension 2
         sage: type(G)
         <class 'sage.modular.abvar.finite_subgroup.FiniteSubgroup_lattice_with_category'>
-        sage: from sage.modular.abvar.finite_subgroup import FiniteSubgroup
+        sage: from sage_modabvar.finite_subgroup import FiniteSubgroup
         sage: isinstance(G, FiniteSubgroup)
         True
     """

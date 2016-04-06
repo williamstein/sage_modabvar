@@ -101,7 +101,8 @@ def J0(N):
         return _get(key)
     except ValueError:
         from sage.modular.arithgroup.all import Gamma0
-        J = Gamma0(N).modular_abelian_variety()
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
+        J = ModAbVar_ambient_jacobian(Gamma0(N))
         return _saved(key, J)
 
 def J1(N):
@@ -119,7 +120,9 @@ def J1(N):
         return _get(key)
     except ValueError:
         from sage.modular.arithgroup.all import Gamma1
-        return _saved(key, Gamma1(N).modular_abelian_variety())
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
+        J = ModAbVar_ambient_jacobian(Gamma1(N))
+        return _saved(key, J)
 
 def JH(N, H):
     """
@@ -136,7 +139,9 @@ def JH(N, H):
         return _get(key)
     except ValueError:
         from sage.modular.arithgroup.all import GammaH
-        return _saved(key, GammaH(N, H).modular_abelian_variety())
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
+        J = ModAbVar_ambient_jacobian(GammaH(N, H))
+        return _saved(key, J)
 
 def AbelianVariety(X):
     """

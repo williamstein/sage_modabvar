@@ -88,13 +88,16 @@ TESTS::
 #                  http://www.gnu.org/licenses/
 #*****************************************************************************
 
-from sage.modular.abvar.torsion_point import TorsionPoint
+# Imports from the core sage library
 from sage.modules.module            import Module
-from finite_subgroup                import FiniteSubgroup
 from sage.rings.all                 import ZZ
 from sage.sets.primes               import Primes
 from sage.modular.arithgroup.all    import is_Gamma0
 from sage.all                       import divisors, gcd, prime_range
+
+# Imports local to our abvar package
+from torsion_point   import TorsionPoint
+from finite_subgroup import FiniteSubgroup
 
 class RationalTorsionSubgroup(FiniteSubgroup):
     """
