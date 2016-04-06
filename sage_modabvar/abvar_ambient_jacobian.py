@@ -3,6 +3,7 @@ Ambient Jacobian Abelian Variety
 
 TESTS::
 
+    sage: from sage_modabvar import J0, J1
     sage: loads(dumps(J0(37))) == J0(37)
     True
     sage: loads(dumps(J1(13))) == J1(13)
@@ -41,7 +42,7 @@ def ModAbVar_ambient_jacobian(group):
 
     EXAMPLES::
 
-        sage: import sage.modular.abvar.abvar_ambient_jacobian as abvar_ambient_jacobian
+        sage: import sage_modabvar.abvar_ambient_jacobian as abvar_ambient_jacobian
         sage: A = abvar_ambient_jacobian.ModAbVar_ambient_jacobian(Gamma0(11))
         sage: A
         Abelian variety J0(11) of dimension 1
@@ -77,6 +78,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
 
         EXAMPLES::
 
+            sage: from sage_modabvar import J0
             sage: A = J0(37); A
             Abelian variety J0(37) of dimension 2
             sage: type(A)
@@ -97,6 +99,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
 
         EXAMPLES::
 
+            sage: from sage_modabvar import J0
             sage: M = J0(33)._modular_symbols(); M
             Modular Symbols subspace of dimension 6 of Modular Symbols space of dimension 9 for Gamma_0(33) of weight 2 with sign 0 over Rational Field
             sage: J0(33)._modular_symbols() is M
@@ -115,6 +118,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
 
         EXAMPLES::
 
+            sage: from sage_modabvar import J0
             sage: A = J0(11); A
             Abelian variety J0(11) of dimension 1
             sage: A._repr_()
@@ -128,7 +132,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
 
         ::
 
-            sage: import sage.modular.abvar.abvar_ambient_jacobian as abvar_ambient_jacobian
+            sage: import sage_modabvar.abvar_ambient_jacobian as abvar_ambient_jacobian
             sage: abvar_ambient_jacobian._cache = {}
         """
         return 'Abelian variety %s of dimension %s%s'%(self._ambient_repr(), self.dimension(),
