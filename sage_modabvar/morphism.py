@@ -14,7 +14,7 @@ AUTHORS:
 - Craig Citro (2008-03)
 
 EXAMPLES::
-
+    sage: from sage_modabvar import J0
     sage: A = J0(54)
     sage: t5 = A.hecke_operator(5); t5
     Hecke operator T_5 on Abelian variety J0(54) of dimension 4
@@ -50,9 +50,9 @@ from finite_subgroup import TorsionPoint
 class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
     """
     A morphism between modular abelian varieties. EXAMPLES::
-
+        sage: from sage_modabvar import J0
         sage: t = J0(11).hecke_operator(2)
-        sage: from sage.modular.abvar.morphism import Morphism
+        sage: from sage_modabvar.morphism import Morphism
         sage: isinstance(t, Morphism)
         True
     """
@@ -62,10 +62,11 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Return string representation of this morphism.
 
         EXAMPLES::
-
-            sage: t = J0(11).hecke_operator(2)
-            sage: sage.modular.abvar.morphism.Morphism_abstract._repr_(t)
+            sage: import sage_modabvar
+            sage: t = sage_modabvar.J0(11).hecke_operator(2)
+            sage: sage_modabvar.morphism.Morphism_abstract._repr_(t)
             'Abelian variety endomorphism of Abelian variety J0(11) of dimension 1'
+            sage: from sage_modabvar import J0
             sage: J0(42).projection(J0(42)[0])._repr_()
             'Abelian variety morphism:\n  From: Abelian variety J0(42) of dimension 5\n  To:   Simple abelian subvariety 14a(1,42) of dimension 1 of J0(42)'
         """
@@ -76,9 +77,9 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Return type of morphism.
 
         EXAMPLES::
-
-            sage: t = J0(11).hecke_operator(2)
-            sage: sage.modular.abvar.morphism.Morphism_abstract._repr_type(t)
+            sage: import sage_modabvar
+            sage: t = sage_modabvar.J0(11).hecke_operator(2)
+            sage: sage_modabvar.morphism.Morphism_abstract._repr_type(t)
             'Abelian variety'
         """
         return "Abelian variety"
@@ -88,7 +89,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Returns the complementary isogeny of self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(43)
             sage: A = J[1]
             sage: T5 = A.hecke_operator(5)

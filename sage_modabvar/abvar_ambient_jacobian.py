@@ -143,7 +143,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         Return Latex representation of self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0, J1, JH
             sage: latex(J0(37))
             J_0(37)
             sage: J1(13)._latex_()
@@ -162,7 +162,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         OUTPUT: abelian variety
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A = J0(17)
             sage: A.ambient_variety()
             Abelian variety J0(17) of dimension 1
@@ -177,7 +177,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         attached to.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0, J1
             sage: J1(37).group()
             Congruence Subgroup Gamma1(37)
             sage: J0(5077).group()
@@ -197,7 +197,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         OUTPUT: tuple
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).groups()
             (Congruence Subgroup Gamma0(37),)
         """
@@ -208,7 +208,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         Calculate generators for the endomorphism ring of self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(11)._calculate_endomorphism_generators()
             [Abelian variety endomorphism of Abelian variety J0(11) of dimension 1]
             sage: ls = J0(46)._calculate_endomorphism_generators() ; ls
@@ -268,7 +268,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         OUTPUT: a morphism
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(11).degeneracy_map(33)
             Degeneracy map from Abelian variety J0(11) of dimension 1 to Abelian variety J0(33) of dimension 3 defined by [1]
             sage: J0(11).degeneracy_map(33).matrix()
@@ -309,7 +309,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         Return the dimension of this modular abelian variety.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0, J1, JH
             sage: J0(2007).dimension()
             221
             sage: J1(13).dimension()
@@ -336,7 +336,7 @@ class ModAbVar_ambient_jacobian_class(ModularAbelianVariety_modsym_abstract):
         subvarieties, up to isogeny.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(33).decomposition(simple=False)
             [
             Abelian subvariety of dimension 2 of J0(33),
