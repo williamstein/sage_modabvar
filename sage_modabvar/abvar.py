@@ -6,7 +6,7 @@ AUTHORS:
 - William Stein (2007-03)
 
 TESTS::
-
+    sage: from sage_modabvar import J0
     sage: A = J0(33)
     sage: D = A.decomposition(); D
     [
@@ -67,16 +67,16 @@ def is_ModularAbelianVariety(x):
 
     EXAMPLES::
 
-        sage: from sage.modular.abvar.abvar import is_ModularAbelianVariety
-        sage: is_ModularAbelianVariety(5)
+        sage: import sage_modabvar
+        sage: sage_modabvar.abvar.is_ModularAbelianVariety(5)
         False
-        sage: is_ModularAbelianVariety(J0(37))
+        sage: sage_modabvar.abvar.is_ModularAbelianVariety(sage_modabvar.J0(37))
         True
 
     Returning True is a statement about the data type not whether or
     not some abelian variety is modular::
 
-        sage: is_ModularAbelianVariety(EllipticCurve('37a'))
+        sage: sage_modabvar.abvar.is_ModularAbelianVariety(EllipticCurve('37a'))
         False
     """
     return isinstance(x, ModularAbelianVariety_abstract)
@@ -115,15 +115,16 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         EXAMPLES: One should not create an instance of this class, but we
         do so anyways here as an example::
 
-            sage: A = sage.modular.abvar.abvar.ModularAbelianVariety_abstract((Gamma0(37),), QQ)
+            sage: import sage_modabvar
+            sage: A = sage_modabvar.abvar.ModularAbelianVariety_abstract((Gamma0(37),), QQ)
             sage: type(A)
-            <class 'sage.modular.abvar.abvar.ModularAbelianVariety_abstract_with_category'>
+            <class 'sage_modabvar.abvar.ModularAbelianVariety_abstract_with_category'>
 
 
         All hell breaks loose if you try to do anything with `A`::
 
             sage: A
-            <repr(<sage.modular.abvar.abvar.ModularAbelianVariety_abstract_with_category at 0x...>) failed: NotImplementedError: BUG -- lattice method must be defined in derived class>
+            <repr(<sage_modabvar.abvar.ModularAbelianVariety_abstract_with_category at 0x...>) failed: NotImplementedError: BUG -- lattice method must be defined in derived class>
 
 
         All instances of this class are in the category of modular
@@ -131,7 +132,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
             sage: A.category()
             Category of modular abelian varieties over Rational Field
-            sage: J0(23).category()
+            sage: sage_modabvar.J0(23).category()
             Category of modular abelian varieties over Rational Field
         """
         if check:
@@ -165,6 +166,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES::
 
+            sage: from sage_modabvar import J0, J1
             sage: A = (J0(37) * J1(13))[0]; A
             Simple abelian subvariety 13aG1(1,13) of dimension 2 of J0(37) x J1(13)
             sage: A.groups()
@@ -184,10 +186,10 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a free module over `\ZZ`
 
         EXAMPLES::
-
-            sage: A = sage.modular.abvar.abvar.ModularAbelianVariety_abstract((Gamma0(37),), QQ)
+            sage: import sage_modabvar
+            sage: A = sage_modabvar.abvar.ModularAbelianVariety_abstract((Gamma0(37),), QQ)
             sage: A
-            <repr(<sage.modular.abvar.abvar.ModularAbelianVariety_abstract_with_category at 0x...>) failed: NotImplementedError: BUG -- lattice method must be defined in derived class>
+            <repr(<sage_modabvar.abvar.ModularAbelianVariety_abstract_with_category at 0x...>) failed: NotImplementedError: BUG -- lattice method must be defined in derived class>
         """
         raise NotImplementedError("BUG -- lattice method must be defined in derived class")
     #############################################################################
@@ -199,7 +201,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a free module over `\ZZ`
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).free_module()
             Ambient free module of rank 4 over the principal ideal domain Integer Ring
             sage: J0(37)[0].free_module()
