@@ -18,6 +18,7 @@ AUTHORS:
 - William Stein (2007-03)
 
 EXAMPLES::
+    sage: from sage_modabvar import J0
     sage: J = J0(33)
     sage: C = J.cuspidal_subgroup()
     sage: C
@@ -43,7 +44,7 @@ EXAMPLES::
 
 We make a table of the order of the cuspidal subgroup for the first
 few levels::
-
+    sage: from sage_modabvar import J0
     sage: for N in range(11,40): print N, J0(N).cuspidal_subgroup().order()
     ...
     11 5
@@ -132,7 +133,7 @@ class FiniteSubgroup(Module):
         sage: G = A.torsion_subgroup(3); G
         Finite subgroup with invariants [3, 3, 3, 3] over QQ of Abelian variety J0(37) of dimension 2
         sage: type(G)
-        <class 'sage.modular.abvar.finite_subgroup.FiniteSubgroup_lattice_with_category'>
+        <class 'sage_modabvar.finite_subgroup.FiniteSubgroup_lattice_with_category'>
         sage: from sage_modabvar.finite_subgroup import FiniteSubgroup
         sage: isinstance(G, FiniteSubgroup)
         True
