@@ -118,7 +118,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Return True if this morphism is an isogeny of abelian varieties.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(39)
             sage: Id = J.hecke_operator(1)
             sage: Id.is_isogeny()
@@ -472,7 +472,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT: a torsion point
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A = J0(11); t = A.hecke_operator(2)
             sage: t.matrix()
             [-2  0]
@@ -560,13 +560,13 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT an abelian variety
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(2)
             sage: t._image_of_abvar(J0(33).new_subvariety())
             Abelian subvariety of dimension 1 of J0(33)
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(3)
             sage: A = J0(33)[0]
             sage: B = t._image_of_abvar(A); B
@@ -577,8 +577,8 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             True
 
         ::
-
-             sage: J = J0(37) ; A, B = J.decomposition()
+            sage: from sage_modabvar import J0
+            sage: J = J0(37) ; A, B = J.decomposition()
             sage: J.projection(A)._image_of_abvar(A)
             Abelian subvariety of dimension 1 of J0(37)
             sage: J.projection(A)._image_of_abvar(B)

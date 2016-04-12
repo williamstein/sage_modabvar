@@ -2,7 +2,7 @@
 Abelian varieties attached to newforms
 
 TESTS::
-
+    sage: from sage_modabvar import AbelianVariety
     sage: A = AbelianVariety('23a')
     sage: loads(dumps(A)) == A
     True
@@ -89,7 +89,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
             True
 
         If the a variable name has not been specified, we must specify one::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('67b')
             sage: A.newform()
             Traceback (most recent call last):
@@ -120,7 +120,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
             string
 
         EXAMPLES::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('43b')
             sage: A.label()
             '43b'
@@ -142,7 +142,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
             int
 
         EXAMPLES::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('43b')
             sage: A.factor_number()
             1
@@ -158,7 +158,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
         String representation of this modular abelian variety.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: AbelianVariety('37a')._repr_()
             'Newform abelian subvariety 37a of dimension 1 of J0(37)'
         """
@@ -170,7 +170,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
         Return the endomorphism ring of this newform abelian variety.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('23a')
             sage: E = A.endomorphism_ring(); E
             Endomorphism ring of Newform abelian subvariety 23a of dimension 2 of J0(23)
@@ -205,7 +205,7 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
     def _calculate_endomorphism_generators(self):
         """
         EXAMPLES::
-
+            sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('43b')
             sage: B = A.endomorphism_ring(); B   # indirect doctest
             Endomorphism ring of Newform abelian subvariety 43b of dimension 2 of J0(43)
