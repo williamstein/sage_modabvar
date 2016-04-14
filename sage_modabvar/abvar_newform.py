@@ -41,7 +41,8 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
         EXAMPLES::
 
             sage: f = CuspForms(37).newforms('a')[0]
-            sage: f.abelian_variety()
+            sage: from sage_modabvar.abvar_newform import ModularAbelianVariety_newform
+            sage: ModularAbelianVariety_newform(f)
             Newform abelian subvariety 37a of dimension 1 of J0(37)
         """
         if not isinstance(f, Newform):
@@ -63,9 +64,9 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
     def _modular_symbols(self,sign=0):
         """
         EXAMPLES::
-
+            sage: from sage_modabvar.abvar_newform import ModularAbelianVariety_newform
             sage: f = CuspForms(52).newforms('a')[0]
-            sage: A = f.abelian_variety()
+            sage: A = ModularAbelianVariety_newform(f)
             sage: A._modular_symbols()
             Modular Symbols subspace of dimension 2 of Modular Symbols space of dimension 15 for Gamma_0(52) of weight 2 with sign 0 over Rational Field
             sage: A._modular_symbols(1)
@@ -80,9 +81,9 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
         Return the newform that this modular abelian variety is attached to.
 
         EXAMPLES::
-
+            sage: from sage_modabvar.abvar_newform import ModularAbelianVariety_newform
             sage: f = Newform('37a')
-            sage: A = f.abelian_variety()
+            sage: A = ModularAbelianVariety_newform(f)
             sage: A.newform()
             q - 2*q^2 - 3*q^3 + 2*q^4 - 2*q^5 + O(q^6)
             sage: A.newform() is f
