@@ -118,7 +118,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Return True if this morphism is an isogeny of abelian varieties.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(39)
             sage: Id = J.hecke_operator(1)
             sage: Id.is_isogeny()
@@ -143,7 +143,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(2)
             sage: (t-1).cokernel()
             (Abelian subvariety of dimension 1 of J0(33),
@@ -154,7 +154,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         Projection will always have cokernel zero.
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).projection(J0(37)[0]).cokernel()
             (Simple abelian subvariety of dimension 0 of J0(37),
              Abelian variety morphism:
@@ -165,7 +165,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         T_2-eigenvalue for the newform 37b is 0.
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).hecke_operator(2).cokernel()
             (Abelian subvariety of dimension 1 of J0(37),
              Abelian variety morphism:
@@ -200,7 +200,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         the kernel has a nontrivial abelian variety part.
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: A, B, C = J0(33)
             sage: pi = J0(33).projection(B)
             sage: pi.kernel()
@@ -208,7 +208,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
              Abelian subvariety of dimension 2 of J0(33))
 
         We compute the kernels of some Hecke operators::
-
+            sage: from sage_modabvar import J0
             sage: t2 = J0(33).hecke_operator(2)
             sage: t2
             Hecke operator T_2 on Abelian variety J0(33) of dimension 3
@@ -256,7 +256,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT: a morphism
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: pi = J0(33).projection(A)
             sage: pi.kernel()
@@ -337,7 +337,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
 
         EXAMPLES: We compute the image of projection onto a factor of
         `J_0(33)`::
-
+            sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: A
             Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
@@ -348,7 +348,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             True
 
         We compute the image of a Hecke operator::
-
+            sage: from sage_modabvar import J0
             sage: t2 = J0(33).hecke_operator(2); t2.fcp()
             (x - 1) * (x + 2)^2
             sage: phi = t2 + 2
@@ -374,7 +374,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT: abelian variety, finite group, torsion element
 
         EXAMPLES: We apply morphisms to elements::
-
+            sage: from sage_modabvar import J0
             sage: t2 = J0(33).hecke_operator(2)
             sage: G  = J0(33).torsion_subgroup(2); G
             Finite subgroup with invariants [2, 2, 2, 2, 2, 2] over QQ of Abelian variety J0(33) of dimension 3
@@ -392,7 +392,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             [(0, 0, 0, 0, 0, 0)]
 
         We apply morphisms to subgroups::
-
+            sage: from sage_modabvar import J0
             sage: t2 = J0(33).hecke_operator(2)
             sage: G  = J0(33).torsion_subgroup(2); G
             Finite subgroup with invariants [2, 2, 2, 2, 2, 2] over QQ of Abelian variety J0(33) of dimension 3
@@ -402,7 +402,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             (x - 1) * (x + 2)^2
 
         We apply morphisms to abelian subvarieties::
-
+            sage: from sage_modabvar import J0
             sage: E11a0, E11a1, B = J0(33)
             sage: t2 = J0(33).hecke_operator(2)
             sage: t3 = J0(33).hecke_operator(3)
@@ -425,7 +425,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
 
         We apply some Hecke operators to the cuspidal subgroup and split it
         up::
-
+            sage: from sage_modabvar import J0
             sage: C = J0(33).cuspidal_subgroup(); C
             Finite subgroup with invariants [10, 10] over QQ of Abelian variety J0(33) of dimension 3
             sage: t2 = J0(33).hecke_operator(2); t2.fcp()
@@ -436,7 +436,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             Finite subgroup with invariants [2, 2] over QQ of Abelian variety J0(33) of dimension 3
 
         Same but on a simple new factor::
-
+            sage: from sage_modabvar import J0
             sage: C = J0(33)[2].cuspidal_subgroup(); C
             Finite subgroup with invariants [2, 2] over QQ of Simple abelian subvariety 33a(1,33) of dimension 1 of J0(33)
             sage: t2 = J0(33)[2].hecke_operator(2); t2.fcp()
@@ -472,7 +472,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT: a torsion point
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A = J0(11); t = A.hecke_operator(2)
             sage: t.matrix()
             [-2  0]
@@ -521,7 +521,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         A finite subgroup of the codomain.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(33); A = J[0]; B = J[1]
             sage: C = A.intersection(B)[0]; C
             Finite subgroup with invariants [5] over QQ of Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
@@ -532,7 +532,7 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             True
 
         Or we directly test this function::
-
+            sage: from sage_modabvar import J0
             sage: D = t._image_of_finite_subgroup(C); D
             Finite subgroup with invariants [5] over QQ of Abelian variety J0(33) of dimension 3
             sage: phi = J0(11).degeneracy_map(22,2)
@@ -560,13 +560,13 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
         OUTPUT an abelian variety
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(2)
             sage: t._image_of_abvar(J0(33).new_subvariety())
             Abelian subvariety of dimension 1 of J0(33)
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(3)
             sage: A = J0(33)[0]
             sage: B = t._image_of_abvar(A); B
@@ -577,8 +577,8 @@ class Morphism_abstract(sage.modules.matrix_morphism.MatrixMorphism_abstract):
             True
 
         ::
-
-             sage: J = J0(37) ; A, B = J.decomposition()
+            sage: from sage_modabvar import J0
+            sage: J = J0(37) ; A, B = J.decomposition()
             sage: J.projection(A)._image_of_abvar(A)
             Abelian subvariety of dimension 1 of J0(37)
             sage: J.projection(A)._image_of_abvar(B)
@@ -615,7 +615,7 @@ class Morphism(Morphism_abstract, sage.modules.matrix_morphism.MatrixMorphism):
         Restrict self to the subvariety sub of self.domain().
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(37) ; A, B = J.decomposition()
             sage: A.lattice().matrix()
             [ 1 -1  1  0]
@@ -675,7 +675,7 @@ class DegeneracyMap(Morphism):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(44).degeneracy_map(11,2)
             Degeneracy map from Abelian variety J0(44) of dimension 4 to Abelian variety J0(11) of dimension 1 defined by [2]
             sage: J0(44)[0].degeneracy_map(88,2)
@@ -691,7 +691,7 @@ class DegeneracyMap(Morphism):
         Return the list of indices defining self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(22).degeneracy_map(44).t()
             [1]
             sage: J = J0(22) * J0(11)
@@ -707,7 +707,7 @@ class DegeneracyMap(Morphism):
         Return the string representation of self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(22).degeneracy_map(44)._repr_()
             'Degeneracy map from Abelian variety J0(22) of dimension 2 to Abelian variety J0(44) of dimension 4 defined by [1]'
         """
@@ -731,7 +731,7 @@ class HeckeOperator(Morphism):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: T2 = J.hecke_operator(2); T2
             Hecke operator T_2 on Abelian variety J0(37) of dimension 2
@@ -752,7 +752,7 @@ class HeckeOperator(Morphism):
         String representation of this Hecke operator.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: J.hecke_operator(2)._repr_()
             'Hecke operator T_2 on Abelian variety J0(37) of dimension 2'
@@ -772,7 +772,7 @@ class HeckeOperator(Morphism):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(15)
             sage: t = J.hecke_operator(53)
             sage: t
@@ -786,7 +786,7 @@ class HeckeOperator(Morphism):
             54
 
         ::
-
+            sage: from sage_modabvar import J1
             sage: J = J1(12345)
             sage: t = J.hecke_operator(997) ; t
             Hecke operator T_997 on Abelian variety J1(12345) of dimension 5405473
@@ -802,7 +802,7 @@ class HeckeOperator(Morphism):
         Alias for ``self.index()``.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J = J0(17)
             sage: J.hecke_operator(5).n()
             5
@@ -823,7 +823,7 @@ class HeckeOperator(Morphism):
         OUTPUT: a polynomial in var over the rational numbers.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A = J0(43)[1]; A
             Simple abelian subvariety 43b(1,43) of dimension 2 of J0(43)
             sage: t2 = A.hecke_operator(2); t2
@@ -850,7 +850,7 @@ class HeckeOperator(Morphism):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J1
             sage: A = J1(13)
             sage: t2 = A.hecke_operator(2); t2
             Hecke operator T_2 on Abelian variety J1(13) of dimension 2
@@ -870,7 +870,7 @@ class HeckeOperator(Morphism):
         `R`.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: A = J0(43)
             sage: t2 = A.hecke_operator(2); t2
             Hecke operator T_2 on Abelian variety J0(43) of dimension 3
@@ -902,7 +902,7 @@ class HeckeOperator(Morphism):
         `\ZZ`.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(47).hecke_operator(3).matrix()
             [ 0  0  1 -2  1  0 -1  0]
             [ 0  0  1  0 -1  0  0  0]
@@ -914,7 +914,7 @@ class HeckeOperator(Morphism):
             [ 0 -1  0  0  1  0 -1  1]
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: J0(11).hecke_operator(7).matrix()
             [-2  0]
             [ 0 -2]
@@ -929,7 +929,7 @@ class HeckeOperator(Morphism):
             [ 0  0 -2  0  0  2  0 -2]
 
         ::
-
+            sage: from sage_modabvar import J0
             sage: J0(23).hecke_operator(2).matrix()
             [ 0  1 -1  0]
             [ 0  1 -1  1]

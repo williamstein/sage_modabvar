@@ -13,7 +13,7 @@ AUTHORS:
 - William Stein (2007-03)
 
 EXAMPLES::
-
+    sage: from sage_modabvar import J0
     sage: J = J0(43)
     sage: H = J.integral_homology()
     sage: H
@@ -78,7 +78,7 @@ class Homology(HeckeModule_free_module):
         OUTPUT: a polynomial over ZZ in the given variable
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(43).integral_homology(); H
             Integral Homology of Abelian variety J0(43) of dimension 3
             sage: f = H.hecke_polynomial(3); f
@@ -101,13 +101,13 @@ class Homology_abvar(Homology):
         following examples.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(43).integral_homology()
             sage: type(H)
-            <class 'sage.modular.abvar.homology.IntegralHomology_with_category'>
+            <class 'sage_modabvar.homology.IntegralHomology_with_category'>
 
         TESTS::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(43).integral_homology()
             sage: loads(dumps(H)) == H
             True
@@ -123,7 +123,7 @@ class Homology_abvar(Homology):
         Compare self to other.
 
         EXAMPLE::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).integral_homology() == J0(41).integral_homology()
             False
             sage: J0(37).integral_homology() == J0(37).rational_homology()
@@ -143,9 +143,9 @@ class Homology_abvar(Homology):
         derived class.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(43).integral_homology()
-            sage: from sage.modular.abvar.homology import Homology_abvar
+            sage: from sage_modabvar.homology import Homology_abvar
             sage: Homology_abvar._repr_(H)
             Traceback (most recent call last):
             ...
@@ -160,7 +160,7 @@ class Homology_abvar(Homology):
         This is not yet implemented!
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(37).homology()
             sage: H.gens()    # this will change
             Traceback (most recent call last):
@@ -176,7 +176,7 @@ class Homology_abvar(Homology):
         This is not yet implemented!
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(37).homology()
             sage: H.gen(0)    # this will change
             Traceback (most recent call last):
@@ -190,7 +190,7 @@ class Homology_abvar(Homology):
         Return the abelian variety that this is the homology of.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(48).homology()
             sage: H.abelian_variety()
             Abelian variety J0(48) of dimension 3
@@ -203,7 +203,7 @@ class Homology_abvar(Homology):
         in.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(48).homology(); H
             Integral Homology of Abelian variety J0(48) of dimension 3
             sage: H.ambient_hecke_module()
@@ -216,7 +216,7 @@ class Homology_abvar(Homology):
         Return the underlying free module of this homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(48).homology()
             sage: H.free_module()
             Ambient free module of rank 6 over the principal ideal domain Integer Ring
@@ -235,7 +235,7 @@ class Homology_abvar(Homology):
         space.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(48).homology().hecke_bound()
             16
             sage: J1(15).homology().hecke_bound()
@@ -257,7 +257,7 @@ class Homology_abvar(Homology):
         OUTPUT: a matrix over the coefficient ring of this homology group
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).integral_homology()
             sage: H.hecke_matrix(3)
             [-1 -2  2  0]
@@ -279,7 +279,7 @@ class Homology_abvar(Homology):
         group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(5077).homology(); H
             Integral Homology of Abelian variety J0(5077) of dimension 422
             sage: H.rank()
@@ -308,7 +308,7 @@ class Homology_abvar(Homology):
            operators.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).homology(); H
             Integral Homology of Abelian variety J0(23) of dimension 2
             sage: F = H.free_module()
@@ -348,11 +348,11 @@ class IntegralHomology(Homology_abvar):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).integral_homology(); H
             Integral Homology of Abelian variety J0(23) of dimension 2
             sage: type(H)
-            <class 'sage.modular.abvar.homology.IntegralHomology_with_category'>
+            <class 'sage_modabvar.homology.IntegralHomology_with_category'>
 
         TESTS::
 
@@ -366,7 +366,7 @@ class IntegralHomology(Homology_abvar):
         String representation of the integral homology.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(23).integral_homology()._repr_()
             'Integral Homology of Abelian variety J0(23) of dimension 2'
         """
@@ -378,7 +378,7 @@ class IntegralHomology(Homology_abvar):
         homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: J0(48).integral_homology().hecke_bound()
             16
             sage: t = J1(13).integral_homology().hecke_matrix(3); t
@@ -397,7 +397,7 @@ class IntegralHomology(Homology_abvar):
         Return the n-th Hecke polynomial on this integral homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: f = J0(43).integral_homology().hecke_polynomial(2)
             sage: f.base_ring()
             Integer Ring
@@ -425,7 +425,7 @@ class RationalHomology(Homology_abvar):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).rational_homology(); H
             Rational Homology of Abelian variety J0(23) of dimension 2
 
@@ -453,7 +453,7 @@ class RationalHomology(Homology_abvar):
         homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J1
             sage: t = J1(13).homology(QQ).hecke_matrix(3); t
             [ 0  0  2 -2]
             [-2 -2  0  2]
@@ -477,7 +477,7 @@ class RationalHomology(Homology_abvar):
         Return the n-th Hecke polynomial on this rational homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: f = J0(43).rational_homology().hecke_polynomial(2)
             sage: f.base_ring()
             Rational Field
@@ -513,11 +513,11 @@ class Homology_over_base(Homology_abvar):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).homology(GF(5)); H
             Homology with coefficients in Finite Field of size 5 of Abelian variety J0(23) of dimension 2
             sage: type(H)
-            <class 'sage.modular.abvar.homology.Homology_over_base_with_category'>
+            <class 'sage_modabvar.homology.Homology_over_base_with_category'>
 
         TESTS::
 
@@ -531,7 +531,7 @@ class Homology_over_base(Homology_abvar):
         Return string representation of self.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(23).homology(GF(5))
             sage: H._repr_()
             'Homology with coefficients in Finite Field of size 5 of Abelian variety J0(23) of dimension 2'
@@ -544,7 +544,7 @@ class Homology_over_base(Homology_abvar):
         homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: t = J1(13).homology(GF(3)).hecke_matrix(3); t
             [0 0 2 1]
             [1 1 0 2]
@@ -575,7 +575,7 @@ class Homology_submodule(Homology):
 
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(37).homology()
             sage: H.submodule([[1,0,0,0]])
             Submodule of rank 1 of Integral Homology of Abelian variety J0(37) of dimension 2
@@ -602,7 +602,7 @@ class Homology_submodule(Homology):
         String representation of this submodule of homology.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(37).homology()
             sage: G = H.submodule([[1, 2, 3, 4]])
             sage: G._repr_()
@@ -615,7 +615,7 @@ class Homology_submodule(Homology):
         Compare self to other.
 
         EXAMPLE::
-
+            sage: from sage_modabvar import J0
             sage: J0(37).homology().decomposition() # indirect doctest
             [
             Submodule of rank 2 of Integral Homology of Abelian variety J0(37) of dimension 2,
@@ -636,7 +636,7 @@ class Homology_submodule(Homology):
         in.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(48).homology(); H
             Integral Homology of Abelian variety J0(48) of dimension 3
             sage: d = H.decomposition(); d
@@ -654,7 +654,7 @@ class Homology_submodule(Homology):
         Return the underlying free module of the homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: H = J0(48).homology()
             sage: K = H.decomposition()[1]; K
             Submodule of rank 4 of Integral Homology of Abelian variety J0(48) of dimension 3
@@ -674,7 +674,7 @@ class Homology_submodule(Homology):
         the Hecke algebra acting on this homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: d = J0(43).homology().decomposition(2); d
             [
             Submodule of rank 2 of Integral Homology of Abelian variety J0(43) of dimension 3,
@@ -702,7 +702,7 @@ class Homology_submodule(Homology):
         homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: d = J0(125).homology(GF(17)).decomposition(2); d
             [
             Submodule of rank 4 of Homology with coefficients in Finite Field of size 17 of Abelian variety J0(125) of dimension 8,
@@ -736,7 +736,7 @@ class Homology_submodule(Homology):
         Return the rank of this homology group.
 
         EXAMPLES::
-
+            sage: from sage_modabvar import J0
             sage: d = J0(43).homology().decomposition(2)
             sage: [H.rank() for H in d]
             [2, 4]

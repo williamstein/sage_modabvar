@@ -508,10 +508,11 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         t, N = self.decomposition()[0].degen_t()
         A = self.ambient_variety()
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
         for i in range(len(self.groups())):
             g = self.groups()[i]
             if N == g.level():
-                J = g.modular_abelian_variety()
+                J = ModAbVar_ambient_jacobian(g)
                 d = J.degeneracy_map(self.newform_level()[0], t)
                 p = A.project_to_factor(i)
                 mat = p.matrix() * d.matrix()
@@ -960,7 +961,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES: We quotient `J_0(33)` out by an abelian
         subvariety::
-
+            sage: from sage_modabvar import J0, J1
             sage: Q, f = J0(33).quotient(J0(33)[0])
             sage: Q
             Abelian variety factor of dimension 2 of J0(33)
@@ -983,6 +984,9 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             Abelian variety J0(11) x J1(13) of dimension 3
         """
         return self / other
+
+    def __div__(self, other): # for compatibility with sage<7.2 (http://trac.sagemath.org/ticket/19536)
+        return self.__truediv__(other)
 
     def __truediv__(self, other):
         """
@@ -1120,11 +1124,12 @@ class ModularAbelianVariety_abstract(ParentWithBase):
                 raise ValueError("one level must divide the other in %s-th component"%i)
             if (( max(M_ls[i],N) // min(M_ls[i],N) ) % t_ls[i]):
                 raise ValueError("each t must divide the quotient of the levels")
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
 
-        ls = [ self.groups()[i].modular_abelian_variety().degeneracy_map(M_ls[i], t_ls[i]).matrix() for i in range(length) ]
+        ls = [ ModAbVar_ambient_jacobian(self.groups()[i]).degeneracy_map(M_ls[i], t_ls[i]).matrix() for i in range(length) ]
 
 
-        new_codomain = prod([ self.groups()[i]._new_group_from_level(M_ls[i]).modular_abelian_variety()
+        new_codomain = prod([ ModAbVar_ambient_jacobian(self.groups()[i]._new_group_from_level(M_ls[i]))
                               for i in range(length) ])
         M = block_diagonal_matrix(ls, subdivide=False)
 
@@ -1376,7 +1381,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             raise IndexError("index (=%s) too large (max = %s)"%(n, len(self.groups())))
 
         G = self.groups()[n]
-        A = G.modular_abelian_variety()
+        from abvar_ambient_jacobian import ModAbVar_ambient_jacobian
+        A = ModAbVar_ambient_jacobian(G)
         index = sum([ gp.modular_symbols().cuspidal_subspace().dimension()
                       for gp in self.groups()[0:n] ])
 
@@ -3174,8 +3180,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         `\phi: A \rightarrow B_1 \times \cdots \times B_n`, where
         each `B_i` is a power of a simple abelian variety. These
         factors will be exactly those returned by
-        self.decomposition(simple=False).Note that this isogeny is not
-        unique.
+        self.decomposition(simple=False).
+        Note that this isogeny is not unique.
 
         EXAMPLES::
 
