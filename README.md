@@ -1,6 +1,8 @@
 How to install locally:
 
     sage-develop setup.py develop --user
+    
+NOTE: By `sage-develop` we simply mean a recent version of Sage, e.g., at least version 7.1.  On SageMathCloud this is provided on the command line as `sage-develop`.
 
 How to test:
 
