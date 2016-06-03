@@ -25,7 +25,8 @@ TESTS::
 ###########################################################################
 
 from sage.structure.sage_object import SageObject
-from sage.rings.all import Integer
+from sage.rings.all import Integer, infinity, ZZ, QQ
+from sage.modules.free_module import span
 from sage.modular.modform.constructor import Newform, CuspForms
 from sage.modular.arithgroup.congroup_gamma0 import is_Gamma0
 from sage.misc.misc_c import prod
@@ -108,8 +109,8 @@ class Lseries_complex(Lseries):
             newforms = [Newform(simple.newform_label(),'a')
                     for simple in simples]
 
-        factors = [newform.lseries(embedding=i) 
-                for newform in newforms 
+        factors = [newform.lseries(embedding=i)
+                for newform in newforms
                 for i in range(newform.base_ring().degree())]
         return prod(L(s) for L in factors)
 
@@ -159,17 +160,37 @@ class Lseries_complex(Lseries):
         Return the rational part of this `L`-function at the central critical
         value 1.
 
-        NOTE: This is not yet implemented.
+        OUTPUT:
+            a rational number
 
         EXAMPLES::
             sage: from sage_modabvar import J0
-            sage: J0(37).lseries().rational_part()
-            Traceback (most recent call last):
-            ...
-            NotImplementedError
+            sage: A, B = J0(43).decomposition()
+            sage: A.lseries().rational_part()
+            0
+            sage: B.lseries().rational_part()
+            2/7
         """
-        raise NotImplementedError
+        abelian_variety = self.abelian_variety()
+        modular_symbols = abelian_variety.modular_symbols()
+        Phi = modular_symbols.rational_period_mapping()
+        ambient_module = modular_symbols.ambient_module()
 
+        e = ambient_module([0,infinity])
+        if Phi(e).is_zero():
+            return QQ(0)
+        else:
+            s = ambient_module.sturm_bound()
+            I = ambient_module.hecke_images(0, range(1,s+1))
+            PhiTe = span([Phi(ambient_module(I[n]))
+                for n in range(I.nrows())], ZZ)
+
+        ambient_plus = ambient_module.sign_submodule(1)
+        ambient_plus_cusp = ambient_plus.cuspidal_submodule()
+        PhiH1plus = span([Phi(x) for
+            x in ambient_plus_cusp.integral_basis()], ZZ)
+
+        return PhiTe.index_in(PhiH1plus)
 
 class Lseries_padic(Lseries):
     """
