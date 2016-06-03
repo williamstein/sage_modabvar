@@ -25,7 +25,7 @@ TESTS::
 ###########################################################################
 
 from sage.structure.sage_object import SageObject
-from sage.rings.all import Integer, infinity, ZZ
+from sage.rings.all import Integer, infinity, ZZ, QQ
 from sage.modules.free_module import span
 from sage.modular.modform.constructor import Newform, CuspForms
 from sage.modular.arithgroup.congroup_gamma0 import is_Gamma0
@@ -109,8 +109,8 @@ class Lseries_complex(Lseries):
             newforms = [Newform(simple.newform_label(),'a')
                     for simple in simples]
 
-        factors = [newform.lseries(embedding=i) 
-                for newform in newforms 
+        factors = [newform.lseries(embedding=i)
+                for newform in newforms
                 for i in range(newform.base_ring().degree())]
         return prod(L(s) for L in factors)
 
@@ -178,7 +178,7 @@ class Lseries_complex(Lseries):
 
         e = ambient_module([0,infinity])
         if Phi(e).is_zero():
-            return 0
+            return QQ(0)
         else:
             s = ambient_module.sturm_bound()
             I = ambient_module.hecke_images(0, range(1,s+1))
