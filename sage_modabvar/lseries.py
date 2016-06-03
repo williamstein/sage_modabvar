@@ -26,6 +26,9 @@ TESTS::
 
 from sage.structure.sage_object import SageObject
 from sage.rings.all import Integer
+from sage.modular.modform.constructor import Newform, CuspForms
+from sage.modular.arithgroup.congroup_gamma0 import is_Gamma0
+from sage.misc.misc_c import prod
 
 class Lseries(SageObject):
     """
@@ -83,16 +86,32 @@ class Lseries_complex(Lseries):
         OUTPUT:
             a complex number L(A, s).
 
-        EXAMPLES:
-        This is not yet implemented::
+        EXAMPLES::
+
             sage: from sage_modabvar import J0
-            sage: L = J0(37).lseries()
-            sage: L(2)
-            Traceback (most recent call last):
-            ...
-            NotImplementedError
+            sage: L = J0(23).lseries()
+            sage: L(1)
+            0.248431866590600
+
+            sage: from sage_modabvar import J1
+            sage: L = J1(29)[0].lseries()
+            sage: L(1)
+            0.291521565699153
         """
-        raise NotImplementedError
+        abelian_variety = self.abelian_variety()
+        # Check for easy J0 case
+        if is_Gamma0(abelian_variety.group()) and abelian_variety.is_ambient():
+            S = CuspForms(abelian_variety.level())
+            newforms = S.newforms('a')
+        else:
+            simples = abelian_variety.decomposition()
+            newforms = [Newform(simple.newform_label(),'a')
+                    for simple in simples]
+
+        factors = [newform.lseries(embedding=i) 
+                for newform in newforms 
+                for i in range(newform.base_ring().degree())]
+        return prod(L(s) for L in factors)
 
     def __cmp__(self, other):
         """
