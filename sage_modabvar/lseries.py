@@ -98,6 +98,11 @@ class Lseries_complex(Lseries):
             sage: L = J1(29)[0].lseries()
             sage: L(1)
             0.291521565699153
+
+            sage: from sage_modabvar import JH
+            sage: L = JH(17,[2]).lseries()
+            sage: L(1)
+            0.386769938387780
         """
         abelian_variety = self.abelian_variety()
         # Check for easy J0 case
