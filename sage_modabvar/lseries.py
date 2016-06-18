@@ -104,20 +104,26 @@ class Lseries_complex(Lseries):
             sage: L(1)
             0.386769938387780
         """
-        abelian_variety = self.abelian_variety()
-        # Check for easy J0 case
-        if is_Gamma0(abelian_variety.group()) and abelian_variety.is_ambient():
-            S = CuspForms(abelian_variety.level())
-            newforms = S.newforms('a')
-        else:
-            simples = abelian_variety.decomposition()
-            newforms = [Newform(simple.newform_label(),'a')
-                    for simple in simples]
+        try:
+            factors = self.__factors
+            return prod(L(s) for L in factors)
+        except AttributeError:
+            abelian_variety = self.abelian_variety()
+            # Check for easy J0 case
+            if is_Gamma0(abelian_variety.group()) \
+            and abelian_variety.is_ambient():
+                S = CuspForms(abelian_variety.level())
+                newforms = S.newforms('a')
+            else:
+                simples = abelian_variety.decomposition()
+                newforms = [Newform(simple.newform_label(), 'a')
+                        for simple in simples]
 
-        factors = [newform.lseries(embedding=i)
-                for newform in newforms
-                for i in range(newform.base_ring().degree())]
-        return prod(L(s) for L in factors)
+            factors = [newform.lseries(embedding=i)
+                    for newform in newforms
+                    for i in range(newform.base_ring().degree())]
+            self.__factors = factors
+            return prod(L(s) for L in factors)
 
     def __cmp__(self, other):
         """
