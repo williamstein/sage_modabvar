@@ -1547,6 +1547,27 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         return self.lattice().rank() // 2
 
+    def conductor(self):
+        """
+        Return the conductor of this abelian variety.
+
+        EXAMPLES::
+            sage: from sage_modabvar import J0
+            sage: A = J0(23)
+            sage: A.conductor().factor()
+            23^2
+            sage: from sage_modabvar import J1
+            sage: A = J1(25)
+            sage: A.conductor().factor()
+            5^24
+        """
+        if not self.base_ring() == QQ:
+            raise ValueError("base ring must be QQ")
+        if self.is_simple():
+            return self.newform_level()[0] ** self.dimension()
+        else:
+            return prod(A.conductor() for A in self.decomposition())
+
     def rank(self):
         """
         Return the rank of the underlying lattice of self.
