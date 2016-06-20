@@ -43,6 +43,7 @@ from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
 from sage.modular.modsym.space  import ModularSymbolsSpace
+from sage.modular.modform.constructor  import Newforms
 from sage.matrix.all            import matrix, block_diagonal_matrix, identity_matrix
 from sage.modules.all           import vector
 from sage.groups.all            import AbelianGroup
@@ -445,6 +446,36 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         degen = str(self.degen_t()).replace(' ','')
         return '%s%s'%(self.newform_label(), degen)
+    
+    def newform(self, names=None):
+        """
+        Return the newform `f` such that this abelian variety is isogenous to
+        the newform abelian variety `A_f`. If this abelian variety is not
+        simple, raise a ValueError.
+
+        INPUT: "names" - if the newform has coefficients in a number field,
+        then a generator name must be specified.
+
+        OUTPUT: newform
+
+        EXAMPLES::
+            sage: from sage_modabvar import J0
+            sage: J0(11).newform()
+            q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6)
+            sage: f = J0(23).newform(names='a')
+            sage: AbelianVariety(f) == J0(23)
+            True
+
+        The following fails since `J_0(33)` is not simple::
+            sage: from sage_modabvar import J0
+            sage: J0(33).newform()
+            Traceback (most recent call last):
+            ...
+            ValueError: self must be simple
+        """
+        N, G = self.newform_level()
+        return Newforms(G, names=names)[self.isogeny_number()]
+
 
     def newform_label(self):
         """
