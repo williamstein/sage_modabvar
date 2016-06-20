@@ -106,7 +106,6 @@ class Lseries_complex(Lseries):
         """
         try:
             factors = self.__factors
-            return prod(L(s) for L in factors)
         except AttributeError:
             abelian_variety = self.abelian_variety()
             # Check for easy J0 case
@@ -123,7 +122,8 @@ class Lseries_complex(Lseries):
                     for newform in newforms
                     for i in range(newform.base_ring().degree())]
             self.__factors = factors
-            return prod(L(s) for L in factors)
+
+        return prod(L(s) for L in factors)
 
     def __cmp__(self, other):
         """
