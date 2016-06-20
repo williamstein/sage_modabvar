@@ -18,6 +18,7 @@ Always use:
     sage-develop
 
 New test cases:
+
     sage: from sage_modabvar import J0
     sage: J = J0(11); B= J.degeneracy_map(33,1).codomain()
     sage: type(B)
@@ -31,5 +32,5 @@ New one:
 
 New one:
 
-            sage: sage.modular.abvar.abvar.ModularAbelianVariety_modsym_abstract._modular_symbols(A)
+    sage: sage.modular.abvar.abvar.ModularAbelianVariety_modsym_abstract._modular_symbols(A)
 
