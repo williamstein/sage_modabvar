@@ -238,35 +238,6 @@ class ModularAbelianVariety_newform(ModularAbelianVariety_modsym_abstract):
 
         return V.saturation().basis()
 
-    def frobenius_polynomial(self, p):
-        """
-        Computes the frobius polynomial at `p`.
-
-        INPUT:
-
-        - ``p`` -- prime number
-
-        OUTPUT:
-            a rational polynomial
-
-        EXAMPLES::
-            sage: f = Newform('39b','a')
-            sage: A=AbelianVariety(f)
-            sage: A.frobenius_polynomial(5)
-            x^4 + 2*x^2 + 25
-        """
-        f = self.__f
-        Kf = f.base_ring()
-        L = Kf.galois_closure('a')
-        emb = Kf.embeddings(L)[0]
-        eps = f.character()
-        ap = f.qexp(p+1).coefficients()[-1]
-
-        R = PolynomialRing(QQ,'x')
-        x = R.gen()
-        return R(prod([x**2 - sigma(emb(ap))*x + sigma(emb(eps(p)))*p 
-            for sigma in L.embeddings(L)]))
-
     def torsion_bound_from_above(self, primes):
         """
         Computes an upper bound of torsion subgroup.

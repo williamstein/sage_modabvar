@@ -39,6 +39,7 @@ from finite_subgroup            import (FiniteSubgroup_lattice, FiniteSubgroup, 
 from cuspidal_subgroup          import CuspidalSubgroup, RationalCuspidalSubgroup, RationalCuspSubgroup
 from sage.all                   import ZZ, QQ, QQbar, Integer, LCM, divisors, prime_range, next_prime
 from sage.rings.ring import is_Ring
+from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
 from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
@@ -2052,6 +2053,44 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             T = T.block_sum(M[i].hecke_matrix(n))
         self.__ambient_hecke_matrix_on_modular_symbols[n] = T
         return T
+
+    def frobenius_polynomial(self, p):
+        """
+        Computes the frobenius polynomial at `p`. If this abelian variety is
+        not simple, a ValueError will be raised.
+
+        INPUT:
+
+        - ``p`` -- prime number
+
+        OUTPUT:
+            a monic integral polynomial
+
+        EXAMPLES::
+            from sage_modabvar import AbelianVariety
+            sage: f = Newform('39b','a')
+            sage: A=AbelianVariety(f)
+            sage: A.frobenius_polynomial(5)
+            x^4 + 2*x^2 + 25
+
+            from sage_modabvar import J0
+            sage: J=J0(23)
+            sage: J.frobenius_polynomial(997)
+            x^4 + 20*x^3 + 1374*x^2 + 19940*x + 994009
+        """
+        f = self.newform('a')
+        Kf = f.base_ring()
+        name = Kf._names[0]
+        ap = f.modular_symbols(1).eigenvalue(p, name)
+        eps = f.character()
+        L = Kf.galois_closure('a')
+        emb = Kf.embeddings(L)[0]
+
+        R = PolynomialRing(ZZ, 'x')
+        x = R.gen()
+        return R(prod([x**2 - sigma(emb(ap))*x + sigma(emb(eps(p)))*p 
+            for sigma in L.embeddings(L)]))
+
 
     ###############################################################################
     # Rational and Integral Homology
