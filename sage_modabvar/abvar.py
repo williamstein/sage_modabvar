@@ -454,12 +454,17 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         the newform abelian variety `A_f`. If this abelian variety is not
         simple, raise a ValueError.
 
-        INPUT: "names" - if the newform has coefficients in a number field,
-        then a generator name must be specified.
+        INPUT: 
+        
+        - ``names`` -- (default: None) If the newform has coefficients in a
+          number field, then a generator name must be specified.
 
-        OUTPUT: newform
+        OUTPUT: 
+
+        A newform `f` so that self is isogenous to `A_f`.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).newform()
             q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6)
@@ -468,6 +473,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             True
 
         The following fails since `J_0(33)` is not simple::
+
             sage: from sage_modabvar import J0
             sage: J0(33).newform()
             Traceback (most recent call last):
@@ -2056,24 +2062,26 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
     def frobenius_polynomial(self, p):
         """
-        Computes the frobenius polynomial at `p`. If this abelian variety is
-        not simple, a ValueError will be raised.
+        Computes the frobenius polynomial at `p`. If this abelian variety is not
+        simple, raise a ValueError.
 
         INPUT:
 
         - ``p`` -- prime number
 
         OUTPUT:
+
             a monic integral polynomial
 
         EXAMPLES::
-            from sage_modabvar import AbelianVariety
+
+            sage: from sage_modabvar import AbelianVariety
             sage: f = Newform('39b','a')
             sage: A=AbelianVariety(f)
             sage: A.frobenius_polynomial(5)
             x^4 + 2*x^2 + 25
 
-            from sage_modabvar import J0
+            sage: from sage_modabvar import J0
             sage: J=J0(23)
             sage: J.frobenius_polynomial(997)
             x^4 + 20*x^3 + 1374*x^2 + 19940*x + 994009
