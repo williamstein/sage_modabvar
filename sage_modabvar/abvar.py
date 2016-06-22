@@ -459,15 +459,14 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         - ``names`` -- (default: None) If the newform has coefficients in a
           number field, then a generator name must be specified.
 
-        OUTPUT: 
-
-        A newform `f` so that self is isogenous to `A_f`.
+        OUTPUT: A newform `f` so that self is isogenous to `A_f`.
 
         EXAMPLES::
 
             sage: from sage_modabvar import J0
             sage: J0(11).newform()
             q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6)
+            sage: from sage_modabvar import AbelianVariety
             sage: f = J0(23).newform(names='a')
             sage: AbelianVariety(f) == J0(23)
             True
