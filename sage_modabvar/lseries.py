@@ -115,8 +115,7 @@ class Lseries_complex(Lseries):
                 newforms = S.newforms('a')
             else:
                 simples = abelian_variety.decomposition()
-                newforms = [Newform(simple.newform_label(), 'a')
-                        for simple in simples]
+                newforms = [simple.newform('a') for simple in simples]
 
             factors = [newform.lseries(embedding=i)
                     for newform in newforms
