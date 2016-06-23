@@ -6,6 +6,7 @@ AUTHORS:
 - William Stein (2007-03)
 
 TESTS::
+
     sage: from sage_modabvar import J0
     sage: A = J0(33)
     sage: D = A.decomposition(); D
@@ -188,6 +189,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a free module over `\ZZ`
 
         EXAMPLES::
+
             sage: import sage_modabvar
             sage: A = sage_modabvar.abvar.ModularAbelianVariety_abstract((Gamma0(37),), QQ)
             sage: A
@@ -203,6 +205,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a free module over `\ZZ`
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(37).free_module()
             Ambient free module of rank 4 over the principal ideal domain Integer Ring
@@ -221,6 +224,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         This is the lattice tensored with `\QQ`.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(37).vector_space()
             Vector space of dimension 4 over Rational Field
@@ -241,6 +245,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Synonym for ``self.base_ring()``.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).base_field()
             Rational Field
@@ -250,6 +255,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
     def base_extend(self, K):
         """
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37); A
             Abelian variety J0(37) of dimension 2
@@ -266,6 +272,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Determine whether or not self contains x.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(67); G = (J[0] + J[1]).intersection(J[1] + J[2])
             sage: G[0]
@@ -306,6 +313,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         defined or matched up, compare the underlying lattices.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: cmp(J0(37)[0], J0(37)[1])
             -1
@@ -349,6 +357,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return other + self when other is 0. Otherwise raise a TypeError.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: int(0) + J0(37)
             Abelian variety J0(37) of dimension 2
@@ -365,6 +374,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         in practice.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: import sage_modabvar.abvar as abvar
@@ -372,6 +382,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             'Abelian variety J0(23) of dimension 2'
 
         ::
+
             sage: from sage_modabvar import J0
             sage: (J0(11) * J0(33))._repr_()
             'Abelian variety J0(11) x J0(33) of dimension 4'
@@ -419,6 +430,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: string
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).label()
             '11a(1,11)'
@@ -432,6 +444,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ValueError: self must be simple
 
         We illustrate that self need not equal `\delta_t(A_f)`::
+
             sage: from sage_modabvar import J0
             sage: J = J0(11); phi = J.degeneracy_map(33, 1) + J.degeneracy_map(33,3)
             sage: B = phi.image(); B
@@ -493,6 +506,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: string
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).newform_label()
             '11a'
@@ -500,6 +514,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             '33a'
 
         The following fails since `J_0(33)` is not simple::
+
             sage: from sage_modabvar import J0
             sage: J0(33).newform_label()
             Traceback (most recent call last):
@@ -522,6 +537,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         isogeny exists), raise a ValueError.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(22)[0]._isogeny_to_newform_abelian_variety()
             Abelian variety morphism:
@@ -578,6 +594,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: an isogeny
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33); J
             Abelian variety J0(33) of dimension 3
@@ -588,6 +605,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         The following illustrates how simple isogeny is only implemented
         when the ambients are the same::
+
             sage: from sage_modabvar import J0,J1
             sage: J[0]._simple_isogeny(J1(11))
             Traceback (most recent call last):
@@ -627,6 +645,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0,J1
             sage: J0(37)._Hom_(J1(37))
             Space of homomorphisms from Abelian variety J0(37) of dimension 2 to Abelian variety J1(37) of dimension 40
@@ -654,6 +673,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         ambient product Jacobian.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: A.in_same_ambient_variety(B)
@@ -675,6 +695,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         kernel of the canonical polarization of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('33a'); A
             Newform abelian subvariety 33a of dimension 1 of J0(33)
@@ -695,6 +716,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         square root of the degree of the modular kernel.
 
         EXAMPLES::
+
             sage: from sage_modabvar import AbelianVariety
             sage: A = AbelianVariety('37a')
             sage: A.modular_degree()
@@ -731,12 +753,14 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         intersection.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: J[0].intersection(J[1])
             (Finite subgroup with invariants [2, 2] over QQ of Simple abelian subvariety 37a(1,37) of dimension 1 of J0(37), Simple abelian subvariety of dimension 0 of J0(37))
 
         ::
+
             sage: from sage_modabvar import J0
             sage: D = list(J0(65)); D
             [Simple abelian subvariety 65a(1,65) of dimension 1 of J0(65), Simple abelian subvariety 65b(1,65) of dimension 2 of J0(65), Simple abelian subvariety 65c(1,65) of dimension 2 of J0(65)]
@@ -746,6 +770,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             (Finite subgroup with invariants [2] over QQbar of Abelian subvariety of dimension 3 of J0(65), Abelian subvariety of dimension 2 of J0(65))
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33)
             sage: J[0].intersection(J[1])
@@ -753,6 +778,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         Next we intersect two abelian varieties with non-finite
         intersection::
+
             sage: from sage_modabvar import J0
             sage: J = J0(67); D = J.decomposition(); D
             [
@@ -833,6 +859,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES: We compute the sum of two abelian varieties of
         `J_0(33)`::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33)
             sage: J[0] + J[1]
@@ -868,6 +895,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         of level `33`.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: A = J0(11)
             sage: B = (A.degeneracy_map(33,1) + A.degeneracy_map(33,3)).image()
@@ -877,6 +905,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         TESTS:
 
         This exposed a bug in HNF (see trac #4527)::
+
             sage: from sage_modabvar import J0
             sage: A = J0(206).new_subvariety().decomposition()[3] ; A # long time
             Simple abelian subvariety 206d(1,206) of dimension 4 of J0(206)
@@ -908,6 +937,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0,J1
             sage: J0(11).direct_product(J1(13))
             Abelian variety J0(11) x J1(13) of dimension 3
@@ -936,6 +966,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: an abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: J^0
@@ -962,6 +993,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Compute the direct product of self and other.
 
         EXAMPLES: Some modular Jacobians::
+
             sage: from sage_modabvar import J0
             sage: J0(11) * J0(33)
             Abelian variety J0(11) x J0(33) of dimension 4
@@ -969,6 +1001,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             Abelian variety J0(11) x J0(33) x J0(11) of dimension 5
 
         We multiply some factors of `J_0(65)`::
+
             sage: from sage_modabvar import J0
             sage: d = J0(65).decomposition()
             sage: d[0] * d[1] * J0(11)
@@ -998,6 +1031,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES: We quotient `J_0(33)` out by an abelian
         subvariety::
+
             sage: from sage_modabvar import J0, J1
             sage: Q, f = J0(33).quotient(J0(33)[0])
             sage: Q
@@ -1008,6 +1042,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
               To:   Abelian variety factor of dimension 2 of J0(33)
 
         We quotient `J_0(33)` by the cuspidal subgroup::
+
             sage: from sage_modabvar import J0
             sage: C = J0(33).cuspidal_subgroup()
             sage: Q, f = J0(33).quotient(C)
@@ -1037,6 +1072,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES: Quotient out by a finite group::
+
             sage: from sage_modabvar import J0
             sage: J = J0(67); G = (J[0] + J[1]).intersection(J[1] + J[2])
             sage: Q, _ = J/G[0]; Q
@@ -1051,6 +1087,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ...
 
         Quotient out by an abelian subvariety::
+
             sage: from sage_modabvar import J0
             sage: A, B, C = J0(33)
             sage: Q, phi = J0(33)/A
@@ -1110,6 +1147,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         matrices.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: d1 = J0(11).degeneracy_map(33, 1); d1
             Degeneracy map from Abelian variety J0(11) of dimension 1 to Abelian variety J0(33) of dimension 3 defined by [1]
@@ -1134,6 +1172,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         We compute a more complicated degeneracy map involving nontrivial
         product ambient Jacobians; note that this is just the block direct
         sum of the two matrices at the beginning of this example::
+
             sage: from sage_modabvar import J0
             sage: d = (J0(11)*J0(11)).degeneracy_map([33,33], [1,3]); d
             Degeneracy map from Abelian variety J0(11) x J0(11) of dimension 2 to Abelian variety J0(33) x J0(33) of dimension 6 defined by [1, 3]
@@ -1198,6 +1237,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         its cuspidal subgroup.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: A = J0(11)
             sage: G = A.cuspidal_subgroup(); G
@@ -1249,6 +1289,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         EXAMPLES: We compute the new quotient of `J_0(33)`.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: A = J0(33); B = A.old_subvariety()
             sage: Q, f = A._quotient_by_abelian_subvariety(B)
@@ -1326,6 +1367,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a morphism
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: a,b,c = J0(33)
             sage: pi = J0(33).projection(a); pi.matrix()
@@ -1388,6 +1430,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         from self to the nth such Jacobian.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33)
             sage: J.project_to_factor(0)
@@ -1441,6 +1484,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         ambient Jacobian product by a finite subgroup.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(33).is_subvariety_of_ambient_jacobian()
             True
@@ -1472,6 +1516,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(33)[0]; A
             Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
@@ -1498,6 +1543,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES: We compute the ambient structure morphism for an abelian
         subvariety of `J_0(33)`::
+
             sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: phi = A.ambient_morphism()
@@ -1527,6 +1573,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             [ 0  3 -2 -1  2  0]
 
         We compute a non-injective map to an ambient space::
+
             sage: from sage_modabvar import J0
             sage: Q,pi = J0(33)/A
             sage: phi = Q.ambient_morphism()
@@ -1553,6 +1600,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: bool
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: A.is_ambient()
@@ -1577,6 +1625,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the dimension of this abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: A.dimension()
@@ -1589,6 +1638,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the conductor of this abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: A.conductor().factor()
@@ -1610,6 +1660,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the rank of the underlying lattice of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33)
             sage: J.rank()
@@ -1627,6 +1678,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         of the ambient Jacobian product.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: A.dimension()
@@ -1641,6 +1693,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: b = self.sturm_bound()
 
         EXAMPLES: We compute a few endomorphism rings::
+
             sage: from sage_modabvar import J0
             sage: J0(11).endomorphism_ring()
             Endomorphism ring of Abelian variety J0(11) of dimension 1
@@ -1650,6 +1703,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             Endomorphism ring of Simple abelian subvariety 33a(1,33) of dimension 1 of J0(33)
 
         No real computation is done::
+
             sage: from sage_modabvar import J1
             sage: J1(123456).endomorphism_ring()
             Endomorphism ring of Abelian variety J1(123456) of dimension 423185857
@@ -1670,6 +1724,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: integer
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1, JH
             sage: J0(11).sturm_bound()
             2
@@ -1699,6 +1754,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: bool
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).is_hecke_stable()
             True
@@ -1738,6 +1794,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Jacobians.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37); J
             Abelian variety J0(37) of dimension 2
@@ -1773,6 +1830,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Change the base ring of this modular abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: A.change_ring(QQ)
@@ -1789,6 +1847,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         levels.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1, JH
             sage: J1(5077).level()
             5077
@@ -1822,6 +1881,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: integer group or list of distinct groups
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J0(33)[0].newform_level()
             (11, Congruence Subgroup Gamma0(33))
@@ -1852,6 +1912,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the zero subvariety of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: J.zero_subvariety()
@@ -1879,6 +1940,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: string
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0,J1
             sage: (J0(33)*J1(11))._ambient_repr()
             'J0(33) x J1(11)'
@@ -1900,6 +1962,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: string
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: (J0(11) * J0(33))._ambient_latex_repr()
             'J_0(11) \\times J_0(33)'
@@ -1923,6 +1986,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: lattice
 
         EXAMPLES: We compute the ambient lattice of a product::
+
             sage: from sage_modabvar import J0, J1
             sage: (J0(33)*J1(11))._ambient_lattice()
             Ambient free module of rank 8 over the principal ideal domain Integer Ring
@@ -1930,6 +1994,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         We compute the ambient lattice of an abelian subvariety
         `J_0(33)`, which is the same as the lattice for the
         `J_0(33)` itself::
+
             sage: from sage_modabvar import J0
             sage: A = J0(33)[0]; A._ambient_lattice()
             Ambient free module of rank 6 over the principal ideal domain Integer Ring
@@ -1950,6 +2015,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: tuple of cuspidal modular symbols spaces
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: (J0(11) * J0(33))._ambient_modular_symbols_spaces()
             (Modular Symbols subspace of dimension 2 of Modular Symbols space of dimension 3 for Gamma_0(11) of weight 2 with sign 0 over Rational Field,
@@ -1975,6 +2041,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: tuple of modular symbols abelian varieties
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: (J0(11) * J0(33))._ambient_modular_symbols_abvars()
             (Abelian variety J0(11) of dimension 1, Abelian variety J0(33) of dimension 3)
@@ -1993,6 +2060,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the dimension of the ambient Jacobian product.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: A = J0(37) * J1(13); A
             Abelian variety J0(37) x J1(13) of dimension 4
@@ -2007,6 +2075,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         _ambient_dimension.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J0(902834082394)
             Abelian variety J0(902834082394) of dimension 113064825881
@@ -2033,6 +2102,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a matrix
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: (J0(11) * J1(13))._ambient_hecke_matrix_on_modular_symbols(2)
             [-2  0  0  0  0  0]
@@ -2107,6 +2177,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the rational homology of this modular abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(11)
             sage: J._rational_homology_space()
@@ -2135,6 +2206,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
            homology.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(389).homology(GF(7))
             Homology with coefficients in Finite Field of size 7 of Abelian variety J0(389) of dimension 32
@@ -2163,6 +2235,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the integral homology of this modular abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: H = J0(43).integral_homology(); H
             Integral Homology of Abelian variety J0(43) of dimension 3
@@ -2201,6 +2274,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the rational homology of this modular abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: H = J0(37).rational_homology(); H
             Rational Homology of Abelian variety J0(37) of dimension 2
@@ -2226,6 +2300,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37)
             sage: A.lseries()
@@ -2244,6 +2319,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37)
             sage: A.padic_lseries(7)
@@ -2271,6 +2347,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         EXAMPLES: We compute `T_2` on `J_0(37)`.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: t2 = J0(37).hecke_operator(2); t2
             Hecke operator T_2 on Abelian variety J0(37) of dimension 2
@@ -2317,6 +2394,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(33).hecke_polynomial(2)
             x^3 + 3*x^2 - 4
@@ -2363,6 +2441,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(33)*J0(11)
             sage: A._compute_hecke_polynomial(2)
@@ -2378,6 +2457,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         raise an ArithmeticError.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: t = A._integral_hecke_matrix(2); t
@@ -2399,6 +2479,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         ArithmeticError.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: t = A._rational_hecke_matrix(2); t
@@ -2420,6 +2501,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         closure of this abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: T = J0(33).qbar_torsion_subgroup(); T
             Group of all torsion points in QQbar on Abelian variety J0(33) of dimension 3
@@ -2451,6 +2533,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return the maximal torsion subgroup of self defined over QQ.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33)
             sage: A = J.new_subvariety()
@@ -2481,6 +2564,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         is the subgroup generated by rational cusps.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(54)
             sage: C = J.cuspidal_subgroup()
@@ -2509,6 +2593,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
     def _ambient_cuspidal_subgroup(self, rational_only=False, rational_subgroup=False):
         """
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: (J1(13)*J0(11))._ambient_cuspidal_subgroup()
             Finite subgroup with invariants [19, 95] over QQ of Abelian variety J1(13) x J0(11) of dimension 3
@@ -2543,6 +2628,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         two degeneracy maps.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J=J0(11)
             sage: J.shimura_subgroup()
@@ -2589,6 +2675,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
            `\Gamma_0(N)`.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(54)
             sage: CQ = J.rational_cusp_subgroup(); CQ
@@ -2604,6 +2691,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         subgroup differ by a lot.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(49)
             sage: J.cuspidal_subgroup()
@@ -2615,6 +2703,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         implemented for `\Gamma_1`.
 
         ::
+
             sage: from sage_modabvar import J1
             sage: J = J1(13)
             sage: J.cuspidal_subgroup()
@@ -2650,6 +2739,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
            `\Gamma_0(N)`.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(54)
             sage: CQ = J.rational_cuspidal_subgroup(); CQ
@@ -2665,6 +2755,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         subgroup differ by a lot.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(49)
             sage: J.cuspidal_subgroup()
@@ -2676,6 +2767,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         implemented for `\Gamma_1`.
 
         ::
+
             sage: from sage_modabvar import J1
             sage: J = J1(13)
             sage: J.cuspidal_subgroup()
@@ -2703,6 +2795,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         finite group.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A =J0(54); G = A.zero_subgroup(); G
             Finite subgroup with invariants [] over QQ of Abelian variety J0(54) of dimension 4
@@ -2737,12 +2830,14 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a finite subgroup of a modular abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(11)
             sage: J.finite_subgroup([[1/5,0], [0,1/3]])
             Finite subgroup with invariants [15] over QQbar of Abelian variety J0(11) of dimension 1
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33); C = J[0].cuspidal_subgroup(); C
             Finite subgroup with invariants [5] over QQ of Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
@@ -2784,11 +2879,13 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         i.e., the group `A[n]`.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J1(13).torsion_subgroup(19)
             Finite subgroup with invariants [19, 19, 19, 19] over QQ of Abelian variety J1(13) of dimension 2
 
         ::
+
             sage: from sage_modabvar import J0
             sage: A = J0(23)
             sage: G = A.torsion_subgroup(5); G
@@ -2844,6 +2941,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: a pair (integer, integer)
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: D = J0(33).decomposition(); D
             [
@@ -2887,12 +2985,14 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES: We test the none_if_not_known flag first::
+
             sage: from sage_modabvar import J0
             sage: J0(33).isogeny_number(none_if_not_known=True) is None
             True
 
         Of course, `J_0(33)` is not simple, so this function
         raises a ValueError::
+
             sage: from sage_modabvar import J0
             sage: J0(33).isogeny_number()
             Traceback (most recent call last):
@@ -2903,6 +3003,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         which the factor is new.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J0(33)[1].isogeny_number()
             0
@@ -2911,6 +3012,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         Next consider `J_0(37)` where there are two distinct
         newform factors::
+
             sage: from sage_modabvar import J0
             sage: J0(37)[1].isogeny_number()
             1
@@ -2941,6 +3043,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J0(5).is_simple(none_if_not_known=True) is None  # this may fail if J0(5) comes up elsewhere...
             True
@@ -3006,6 +3109,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             True
 
         We decompose a product of two Jacobians::
+
             sage: from sage_modabvar import J0
             sage: (J0(33) * J0(11)).decomposition()
             [
@@ -3188,6 +3292,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: IN list OUT list simple (or power of simple) factors
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: d1 = J0(11).degeneracy_map(33, 1); d1
             Degeneracy map from Abelian variety J0(11) of dimension 1 to Abelian variety J0(33) of dimension 3 defined by [1]
@@ -3228,6 +3333,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         unique.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37) ; J.decomposition()
             [
@@ -3284,6 +3390,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Note that this isogeny is not unique.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33) ; D = J.decomposition(simple=False) ; len(D)
             2
@@ -3293,6 +3400,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
               To:   Abelian subvariety of dimension 3 of J0(33) x J0(33)
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(22) * J0(37)
             sage: J._isogeny_to_product_of_powers()
@@ -3340,6 +3448,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: a,b,c = J0(33)
             sage: (a+b).complement()
@@ -3398,6 +3507,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         map, which has structure `(\ZZ/3)^2`.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: A,B,C = J0(33)
             sage: C
@@ -3430,6 +3540,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             Finite subgroup with invariants [2, 2] over QQ of Newform abelian subvariety 43b of dimension 2 of J0(43)
 
         Unfortunately, the dual is not implemented in general::
+
             sage: from sage_modabvar import J0
             sage: A = J0(22)[0]; A
             Simple abelian subvariety 11a(1,22) of dimension 1 of J0(22)
@@ -3467,6 +3578,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         OUTPUT: list of simple abelian varieties
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: D = J0(33).decomposition(); D
             [
@@ -3497,6 +3609,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         just the isogeny class.
 
         ::
+
             sage: from sage_modabvar import J0, J1
             sage: (D[0]+D[1])._factors_with_same_label(J1(11))
             []
@@ -3524,12 +3637,14 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES: `J_0(37)` is made up of two non-isogenous
         elliptic curves::
+
             sage: from sage_modabvar import J0
             sage: J0(37)[0]._complement_shares_no_factors_with_same_label()
             True
 
         `J_0(33)` decomposes as a product of two isogenous
         elliptic curves with a third nonisogenous curve::
+
             sage: from sage_modabvar import J0
             sage: D = J0(33).decomposition(); D
             [
@@ -3548,6 +3663,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Jacobian.
 
         ::
+
             sage: from sage_modabvar import J0, J1
             sage: D = (J0(11) * J0(11)).decomposition(); D
             [
@@ -3585,6 +3701,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         or returns the slice `i` of decompositions of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(389)
             sage: J.decomposition()
@@ -3635,6 +3752,7 @@ class ModularAbelianVariety(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(23)
             Abelian variety J0(23) of dimension 2
@@ -3668,6 +3786,7 @@ class ModularAbelianVariety(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = (J0(11) * J0(37))[1]; A
             Simple abelian subvariety 37a(1,37) of dimension 1 of J0(11) x J0(37)
@@ -3716,6 +3835,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         Add two modular abelian variety factors.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(42); D = A.decomposition(); D
             [
@@ -3757,6 +3877,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         OUTPUT: tuple
 
         EXAMPLES::
+
             sage: from sage_modabvar.abvar import ModularAbelianVariety_modsym
             sage: A = ModularAbelianVariety_modsym(ModularSymbols(33).cuspidal_submodule()); A
             Abelian variety J0(33) of dimension 3
@@ -3776,6 +3897,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         A free `\ZZ`-module embedded in an ambient `\QQ`-vector space.
 
         EXAMPLES::
+
             sage: from sage_modabvar.abvar import ModularAbelianVariety_modsym
             sage: A = ModularAbelianVariety_modsym(ModularSymbols(33).cuspidal_submodule()[0], check=False); A
             Abelian subvariety of dimension 1 of J0(33)
@@ -3834,6 +3956,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         using Hecke operators. Otherwise raise a RuntimeError exception.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37)
             sage: A.modular_symbols()
@@ -3891,6 +4014,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
            on integral or rational homology (which has degree 2\*d).
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).hecke_polynomial(2)
             x + 2
@@ -3924,6 +4048,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J1
             sage: J1(13)._integral_hecke_matrix(2)     # slightly random choice of basis
             [-2  0 -1  1]
@@ -3954,6 +4079,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J1
             sage: J1(13)._rational_hecke_matrix(2)    # slightly random choice of basis
             [-2  0 -1  1]
@@ -3973,6 +4099,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         variety is associated to.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1, JH
             sage: J0(13).group()
             Congruence Subgroup Gamma0(13)
@@ -3990,6 +4117,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         Return True if self is a subvariety of other.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37); J
             Abelian variety J0(37) of dimension 2
@@ -4049,6 +4177,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         OUTPUT: bool
 
         EXAMPLES::
+
             sage: from sage_modabvar.abvar import ModularAbelianVariety_modsym
             sage: A = ModularAbelianVariety_modsym(ModularSymbols(43).cuspidal_subspace(), check=False);A
             Abelian variety J0(43) of dimension 3
@@ -4068,6 +4197,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
         Return the dimension of this modular abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(37)[0].dimension()
             1
@@ -4102,6 +4232,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J0(33).new_subvariety()
             Abelian subvariety of dimension 1 of J0(33)
@@ -4137,6 +4268,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J0(33).old_subvariety()
             Abelian subvariety of dimension 2 of J0(33)
@@ -4173,6 +4305,7 @@ class ModularAbelianVariety_modsym_abstract(ModularAbelianVariety_abstract):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0, J1
             sage: J = J0(33)
             sage: J.decomposition()
@@ -4299,6 +4432,7 @@ class ModularAbelianVariety_modsym(ModularAbelianVariety_modsym_abstract):
             - Integer
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37)[1]
             sage: A.component_group_order(37)
@@ -4396,6 +4530,7 @@ class ModularAbelianVariety_modsym(ModularAbelianVariety_modsym_abstract):
             - list -- of elementary invariants
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(62).new_subvariety()[1]; A
             Simple abelian subvariety 62b(1,62) of dimension 2 of J0(62)
@@ -4429,6 +4564,7 @@ class ModularAbelianVariety_modsym(ModularAbelianVariety_modsym_abstract):
             - Integer
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(37)[1]
             sage: A.tamagawa_number(37)
@@ -4475,6 +4611,7 @@ class ModularAbelianVariety_modsym(ModularAbelianVariety_modsym_abstract):
               primes that can possibly divide the Tamagawa number at p.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(63).new_subvariety()[1]; A
             Simple abelian subvariety 63b(1,63) of dimension 2 of J0(63)
@@ -4536,6 +4673,7 @@ class ModularAbelianVariety_modsym(ModularAbelianVariety_modsym_abstract):
             - Brandt module space that corresponds to self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(43)[1].brandt_module(43)
             Subspace of dimension 2 of Brandt module of dimension 4 of level 43 of weight 2 over Rational Field
@@ -4598,6 +4736,7 @@ def sqrt_poly(f):
        charpoly functions above.
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: R.<x> = QQ[]
         sage: f = (x-1)*(x+2)*(x^2 + 1/3*x + 5)
@@ -4644,6 +4783,7 @@ def random_hecke_operator(M, t=None, p=2):
     OUTPUT: Hecke operator prime
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: M = ModularSymbols(11).cuspidal_subspace()
         sage: t, p = sage_modabvar.abvar.random_hecke_operator(M)
@@ -4674,6 +4814,7 @@ def factor_new_space(M):
     OUTPUT: list of factors
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: M = ModularSymbols(37).cuspidal_subspace()
         sage: sage_modabvar.abvar.factor_new_space(M)
@@ -4710,6 +4851,7 @@ def factor_modsym_space_new_factors(M):
     OUTPUT: list of decompositions corresponding to each new space.
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: M = ModularSymbols(33)
         sage: sage_modabvar.abvar.factor_modsym_space_new_factors(M)
@@ -4742,6 +4884,7 @@ def simple_factorization_of_modsym_space(M, simple=True):
     OUTPUT: sequence
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: M = ModularSymbols(33)
         sage: sage_modabvar.abvar.simple_factorization_of_modsym_space(M)
@@ -4809,6 +4952,7 @@ def modsym_lattices(M, factors):
     lattice)
 
     EXAMPLES::
+
         sage: import sage_modabvar
         sage: M = ModularSymbols(33)
         sage: factors = sage_modabvar.abvar.simple_factorization_of_modsym_space(M, simple=False)

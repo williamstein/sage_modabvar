@@ -8,6 +8,7 @@ corresponding to distinct newforms. These two intersect
 nontrivially in J0(37).
 
 ::
+
     sage: from sage_modabvar import J0
     sage: J = J0(37)
     sage: D = J.decomposition() ; D
@@ -95,6 +96,7 @@ map from J0(11) to J0(33). There is also one newform at level 33.
 The images of the two degeneracy maps are, of course, isogenous.
 
 ::
+
     sage: from sage_modabvar import J0
     sage: J = J0(33)
     sage: D = J.decomposition()
@@ -254,6 +256,7 @@ class Homspace(HomsetWithBase):
         in ``MatrixMorphism.__init__``.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: H = Hom(J0(11), J0(22))
             sage: phi = H(matrix(ZZ,2,4,[5..12])); phi # indirect doctest
@@ -278,6 +281,7 @@ class Homspace(HomsetWithBase):
         - anything that can be coerced into self.matrix_space()
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: H = Hom(J0(11), J0(22))
             sage: phi = H(matrix(ZZ,2,4,[5..12])) ; phi
@@ -341,6 +345,7 @@ class Homspace(HomsetWithBase):
         Coerce x into self, if possible.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37) ; J.Hom(J)._coerce_impl(matrix(ZZ,4,[5..20]))
             Abelian variety endomorphism of Abelian variety J0(37) of dimension 2
@@ -359,6 +364,7 @@ class Homspace(HomsetWithBase):
         String representation of a modular abelian variety homspace.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(11)
             sage: End(J)._repr_()
@@ -382,6 +388,7 @@ class Homspace(HomsetWithBase):
         OUTPUT: a matrix
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(11))
             sage: E._get_matrix(matrix(QQ,2,[1,2,3,4]))
@@ -392,6 +399,7 @@ class Homspace(HomsetWithBase):
             [ 0 -2]
 
         ::
+
             sage: from sage_modabvar import J0
             sage: H = Hom(J0(11) * J0(17), J0(22))
             sage: H._get_matrix(tuple([8..23]))
@@ -433,6 +441,7 @@ class Homspace(HomsetWithBase):
         OUTPUT: free module
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = Hom(J0(11), J0(22))
             sage: E.free_module()
@@ -458,6 +467,7 @@ class Homspace(HomsetWithBase):
         OUTPUT: a morphism
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(22))
             sage: E.gen(0).matrix()
@@ -478,6 +488,7 @@ class Homspace(HomsetWithBase):
         OUTPUT: integer
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(22))
             sage: E.ngens()
@@ -491,6 +502,7 @@ class Homspace(HomsetWithBase):
         Return tuple of generators for this endomorphism ring.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(22))
             sage: E.gens()
@@ -512,6 +524,7 @@ class Homspace(HomsetWithBase):
         ring as being embedded into.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(22))
             sage: E.matrix_space()
@@ -525,6 +538,7 @@ class Homspace(HomsetWithBase):
         for this homspace. If they have been computed, do nothing.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(11))
             sage: E.calculate_generators()
@@ -559,6 +573,7 @@ class Homspace(HomsetWithBase):
         simple factors.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = End(J0(37))
             sage: E.gens()
@@ -634,6 +649,7 @@ class Homspace(HomsetWithBase):
         homomorphisms from the domain of self to its codomain.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: H = Hom(J0(11), J0(22)[0])
             sage: H._calculate_simple_gens()
@@ -670,6 +686,7 @@ class Homspace(HomsetWithBase):
             ]
 
         ::
+
             sage: from sage_modabvar import J0
             sage: J = J0(23) ; J.decomposition()
             [
@@ -689,6 +706,7 @@ class Homspace(HomsetWithBase):
             [-1  1  0 -1]
 
         ::
+
             sage: from sage_modabvar import J0
             sage: H = Hom(J0(11), J0(22)[0])
             sage: H._calculate_simple_gens()
@@ -733,6 +751,7 @@ class EndomorphismSubring(Homspace, Ring):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(23).endomorphism_ring()
             Endomorphism ring of Abelian variety J0(23) of dimension 2
@@ -754,6 +773,7 @@ class EndomorphismSubring(Homspace, Ring):
 
         The following tests against a problem on 32 bit machines that
         occured while working on trac ticket #9944::
+
             sage: from sage_modabvar.homspace import EndomorphismSubring
             sage: from sage_modabvar import J1
             sage: EndomorphismSubring(J1(12345))
@@ -796,6 +816,7 @@ class EndomorphismSubring(Homspace, Ring):
         Return the string representation of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(31).endomorphism_ring()._repr_()
             'Endomorphism ring of Abelian variety J0(31) of dimension 2'
@@ -813,6 +834,7 @@ class EndomorphismSubring(Homspace, Ring):
         to.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).endomorphism_ring().abelian_variety()
             Abelian variety J0(11) of dimension 1
@@ -834,6 +856,7 @@ class EndomorphismSubring(Homspace, Ring):
 
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: R = J0(33).endomorphism_ring()
             sage: R.index_in(R)
@@ -893,6 +916,7 @@ class EndomorphismSubring(Homspace, Ring):
            be ZZ, has discriminant 2, as in the example below.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(33).endomorphism_ring().discriminant()
             -64800
@@ -919,6 +943,7 @@ class EndomorphismSubring(Homspace, Ring):
         checking to see if this condition is met.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E = J0(33).endomorphism_ring()
             sage: E.image_of_hecke_algebra()

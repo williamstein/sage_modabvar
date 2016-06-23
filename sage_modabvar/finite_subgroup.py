@@ -18,6 +18,7 @@ AUTHORS:
 - William Stein (2007-03)
 
 EXAMPLES::
+
     sage: from sage_modabvar import J0
     sage: J = J0(33)
     sage: C = J.cuspidal_subgroup()
@@ -44,6 +45,7 @@ EXAMPLES::
 
 We make a table of the order of the cuspidal subgroup for the first
 few levels::
+
     sage: from sage_modabvar import J0
     sage: for N in range(11,40): print N, J0(N).cuspidal_subgroup().order()
     ...
@@ -146,6 +148,7 @@ class FiniteSubgroup(Module):
         Initialize ``self``.
 
         TESTS::
+
             sage: from sage_modabvar import J0
             sage: A = J0(11)
             sage: G = A.torsion_subgroup(2)
@@ -175,6 +178,7 @@ class FiniteSubgroup(Module):
         subgroup are represented by vectors in the ambient vector space
         (the rational homology), and this returns the lattice they span.
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(33); C = J[0].cuspidal_subgroup(); C
             Finite subgroup with invariants [5] over QQ of Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
@@ -192,6 +196,7 @@ class FiniteSubgroup(Module):
         of the parent abelian variety.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A = J0(43)[1]; A
             Simple abelian subvariety 43b(1,43) of dimension 2 of J0(43)
@@ -321,6 +326,7 @@ class FiniteSubgroup(Module):
         OUTPUT: Integer
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(7)
             sage: G = t.kernel()[0]; G
@@ -348,6 +354,7 @@ class FiniteSubgroup(Module):
         OUTPUT: a finite group
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: E11a0, E11a1, B = J0(33)
             sage: G = E11a0.torsion_subgroup(6); H = E11a0.torsion_subgroup(9)
@@ -362,6 +369,7 @@ class FiniteSubgroup(Module):
         We intersect subgroups of different abelian varieties.
 
         ::
+
             sage: from sage_modabvar import J0
             sage: E11a0, E11a1, B = J0(33)
             sage: G = E11a0.torsion_subgroup(5); H = E11a1.torsion_subgroup(5)
@@ -371,6 +379,7 @@ class FiniteSubgroup(Module):
             Finite subgroup with invariants [5] over QQ of Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
 
         We intersect abelian varieties with subgroups::
+
             sage: from sage_modabvar import J0
             sage: t = J0(33).hecke_operator(7)
             sage: G = t.kernel()[0]; G
@@ -431,6 +440,7 @@ class FiniteSubgroup(Module):
         OUTPUT: a subgroup
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(37)
             sage: H = J.cuspidal_subgroup(); H.order()
@@ -462,6 +472,7 @@ class FiniteSubgroup(Module):
         Multiply this finite subgroup on the left by an integer.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(42)
             sage: G = J.cuspidal_subgroup(); factor(G.order())
@@ -479,6 +490,7 @@ class FiniteSubgroup(Module):
         Return the abelian variety that this is a finite subgroup of.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(42)
             sage: G = J.rational_torsion_subgroup(); G
@@ -495,6 +507,7 @@ class FiniteSubgroup(Module):
         defined.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(42)
             sage: G = J.rational_torsion_subgroup(); G
@@ -509,6 +522,7 @@ class FiniteSubgroup(Module):
         Return string representation of this finite subgroup.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(42)
             sage: G = J.torsion_subgroup(3); G._repr_()
@@ -532,6 +546,7 @@ class FiniteSubgroup(Module):
         could be expensive.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(42).cuspidal_subgroup()._invariants_repr()
             'with invariants [2, 2, 12, 48] '
@@ -543,6 +558,7 @@ class FiniteSubgroup(Module):
         Return the order (number of elements) of this finite subgroup.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(42)
             sage: C = J.cuspidal_subgroup()
@@ -564,6 +580,7 @@ class FiniteSubgroup(Module):
         Return generators for this finite subgroup.
 
         EXAMPLES: We list generators for several cuspidal subgroups::
+
             sage: from sage_modabvar import J0
             sage: J0(11).cuspidal_subgroup().gens()
             [[(0, 1/5)]]
@@ -590,6 +607,7 @@ class FiniteSubgroup(Module):
         Return `n^{th}` generator of self.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(23)
             sage: C = J.torsion_subgroup(3)
@@ -621,6 +639,7 @@ class FiniteSubgroup(Module):
 
         EXAMPLES: We first construct the `11`-torsion subgroup of
         `J_0(23)`::
+
             sage: from sage_modabvar import J0
             sage: J = J0(23)
             sage: G = J.torsion_subgroup(11)
@@ -679,6 +698,7 @@ class FiniteSubgroup(Module):
         EXAMPLES:
 
         We define two distinct finite subgroups of `J_0(27)`::
+
             sage: from sage_modabvar import J0
             sage: G1 = J0(27).rational_cusp_subgroup(); G1
             Finite subgroup with invariants [3] over QQ of Abelian variety J0(27) of dimension 1
@@ -725,6 +745,7 @@ class FiniteSubgroup(Module):
         generators, which must all be elements of ``self``.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(23)
             sage: G = J.torsion_subgroup(11); G
@@ -760,6 +781,7 @@ class FiniteSubgroup(Module):
         `\ZZ/n_1\ZZ \times\cdots\times \ZZ/n_k\ZZ.`
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(38)
             sage: C = J.cuspidal_subgroup(); C
@@ -779,6 +801,7 @@ class FiniteSubgroup(Module):
             Finite subgroup with invariants [15] over QQ of Abelian variety J0(38) of dimension 4
 
         An example involving another cuspidal subgroup::
+
             sage: from sage_modabvar import J0
             sage: C = J0(22).cuspidal_subgroup(); C
             Finite subgroup with invariants [5, 5] over QQ of Abelian variety J0(22) of dimension 2
@@ -852,6 +875,7 @@ class FiniteSubgroup_lattice(FiniteSubgroup):
         Return lattice that defines this finite subgroup.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J = J0(11)
             sage: G = J.finite_subgroup([[1/3,0], [0,1/5]]); G
