@@ -9,6 +9,7 @@ AUTHOR:
 - William Stein (2007-03)
 
 TESTS::
+
     sage: from sage_modabvar import J0
     sage: L = J0(37)[0].padic_lseries(5)
     sage: loads(dumps(L)) == L
@@ -44,6 +45,7 @@ class Lseries(SageObject):
         - ``abvar`` -- a modular abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).lseries()
             Complex L-series attached to Abelian variety J0(11) of dimension 1
@@ -60,6 +62,7 @@ class Lseries(SageObject):
             a modular abelian variety
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).padic_lseries(7).abelian_variety()
             Abelian variety J0(11) of dimension 1
@@ -71,6 +74,7 @@ class Lseries_complex(Lseries):
     A complex `L`-series attached to a modular abelian variety.
 
     EXAMPLES::
+
         sage: from sage_modabvar import J0
         sage: A = J0(37)
         sage: A.lseries()
@@ -136,6 +140,7 @@ class Lseries_complex(Lseries):
            -1, 0, or 1
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: L = J0(37)[0].lseries(); M = J0(37)[1].lseries()
             sage: cmp(L,M)
@@ -158,6 +163,7 @@ class Lseries_complex(Lseries):
             a string
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: L = J0(37).lseries()
             sage: L._repr_()
@@ -174,6 +180,7 @@ class Lseries_complex(Lseries):
             a rational number
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: A, B = J0(43).decomposition()
             sage: A.lseries().rational_part()
@@ -211,6 +218,7 @@ class Lseries_padic(Lseries):
         Create a `p`-adic `L`-series.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(37)[0].padic_lseries(389)
             389-adic L-series attached to Simple abelian subvariety 37a(1,37) of dimension 1 of J0(37)
@@ -235,6 +243,7 @@ class Lseries_padic(Lseries):
             -1, 0, or 1
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: L = J0(37)[0].padic_lseries(5); M = J0(37)[1].padic_lseries(5)
             sage: K = J0(37)[0].padic_lseries(3)
@@ -261,6 +270,7 @@ class Lseries_padic(Lseries):
         Return the prime `p` of this `p`-adic `L`-series.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: J0(11).padic_lseries(7).prime()
             7
@@ -276,6 +286,7 @@ class Lseries_padic(Lseries):
         NOTE: This is not yet implemented.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: L = J0(37)[0].padic_lseries(5)
             sage: L.power_series()
@@ -294,6 +305,7 @@ class Lseries_padic(Lseries):
         String representation of this `p`-adic `L`-series.
 
         EXAMPLES::
+
             sage: from sage_modabvar import J0
             sage: L = J0(37)[0].padic_lseries(5)
             sage: L._repr_()
