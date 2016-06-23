@@ -208,6 +208,8 @@ class Lseries_complex(Lseries):
             x in ambient_plus_cusp.integral_basis()], ZZ)
 
         return PhiTe.index_in(PhiH1plus)
+    
+    lratio = rational_part
 
 class Lseries_padic(Lseries):
     """
