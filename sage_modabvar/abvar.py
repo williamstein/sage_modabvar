@@ -2141,20 +2141,24 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES::
 
-        sage: from sage_modabvar import J0, J1
-        sage: J0(23).number_of_rational_points()
-        11
-        sage: J0(29).number_of_rational_points()
-        7
-        sage: J0(37).number_of_rational_points()
-        +Infinity
+            sage: from sage_modabvar import J0, J1
+            sage: J0(23).number_of_rational_points()
+            11
+            sage: J0(29).number_of_rational_points()
+            7
+            sage: J0(37).number_of_rational_points()
+            +Infinity
+            sage: J1(17).number_of_rational_points()
+            Traceback (most recent call last):
+            ...
+            NotImplementedError: torsion multiple only implemented for Gamma0
         """
-
-        # The rank of a simple is positive if the lratio is zero.
-        positive_rank_simple = lambda simple: simple.lseries().lratio() == 0
+        # Check easy dimension zero case
+        if self.dimension() == 0:
+            return ZZ(0)
 
         # The rank is positive if at least one simple has positive rank
-        positive_rank = any(positive_rank_simple(simple)
+        positive_rank = any(simple.lseries().is_zero_at_one()
                 for simple in self.decomposition())
 
         if positive_rank:
