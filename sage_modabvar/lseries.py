@@ -202,6 +202,9 @@ class Lseries_complex(Lseries):
 
         EXAMPLES::
 
+        Numerically, it appears that the `L`-series for J0(389) vanishes at 1.
+        This is confirmed by this algebraic computation. ::
+
             sage: from sage_modabvar import J0, J1
             sage: L = J0(389)[0].lseries(); L
             Complex L-series attached to Simple abelian subvariety 389a(1,389) of dimension 1 of J0(389)
@@ -210,12 +213,17 @@ class Lseries_complex(Lseries):
             sage: L.vanishes_at_1()
             True
 
+        Numerically, it appears that the `L`-series for J1(23) vanishes at 1.
+        But this algebraic computation shows otherwise. ::
+
             sage: L = J1(23).lseries(); L
             Complex L-series attached to Abelian variety J1(23) of dimension 12
             sage: L(1)
             1.71571957480487e-7
             sage: L.vanishes_at_1()
             False
+            sage: L(1, prec=100)
+            1.7157195748048518516191946658e-7
         """
         abelian_variety = self.abelian_variety()
         # Check for easy dimension zero case
