@@ -174,7 +174,7 @@ class Lseries_complex(Lseries):
         """
         return "Complex L-series attached to %s"%self.abelian_variety()
 
-    def is_zero_at_one(self):
+    def vanishes_at_1(self):
         """
         Return True if `L(1)=0` and return False otherwise.
 
@@ -184,18 +184,18 @@ class Lseries_complex(Lseries):
         EXAMPLES::
 
             sage: from sage_modabvar import J0, J1
-            sage: L = J0(43)[0].lseries(); L
-            Complex L-series attached to Simple abelian subvariety 43a(1,43) of dimension 1 of J0(43)
+            sage: L = J0(389)[0].lseries(); L
+            Complex L-series attached to Simple abelian subvariety 389a(1,389) of dimension 1 of J0(389)
             sage: L(1)
-            0.000000000000000
-            sage: L.is_zero_at_one()
+            -1.33139759782370e-19
+            sage: L.vanishes_at_1()
             True
 
             sage: L = J1(23).lseries(); L
             Complex L-series attached to Abelian variety J1(23) of dimension 12
             sage: L(1)
             1.71571957480487e-7
-            sage: L.is_zero_at_one()
+            sage: L.vanishes_at_1()
             False
         """
         abelian_variety = self.abelian_variety()
@@ -231,7 +231,7 @@ class Lseries_complex(Lseries):
         Phi = modular_symbols.rational_period_mapping()
         ambient_module = modular_symbols.ambient_module()
 
-        if self.is_zero_at_one():
+        if self.vanishes_at_1():
             return QQ(0)
         else:
             s = ambient_module.sturm_bound()

@@ -2148,6 +2148,11 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             7
             sage: J0(37).number_of_rational_points()
             +Infinity
+
+            sage: J0(12); J0(12).number_of_rational_points()
+            Abelian variety J0(12) of dimension 0
+            1
+
             sage: J1(17).number_of_rational_points()
             Traceback (most recent call last):
             ...
@@ -2155,10 +2160,10 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         # Check easy dimension zero case
         if self.dimension() == 0:
-            return ZZ(0)
+            return ZZ(1)
 
         # The rank is positive if at least one simple has positive rank
-        positive_rank = any(simple.lseries().is_zero_at_one()
+        positive_rank = any(simple.lseries().vanishes_at_1()
                 for simple in self.decomposition())
 
         if positive_rank:
