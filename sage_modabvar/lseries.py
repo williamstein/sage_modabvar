@@ -80,13 +80,16 @@ class Lseries_complex(Lseries):
         sage: A.lseries()
         Complex L-series attached to Abelian variety J0(37) of dimension 2
     """
-    def __call__(self, s):
+    def __call__(self, s, prec=53):
         """
         Evaluate this complex `L`-series at `s`.
 
         INPUT:
 
         - ``s`` -- complex number
+
+        - ``prec`` -- integer (default: 53) the number of bits of precision
+          used in computing the lseries of the newforms.
 
         OUTPUT:
             a complex number L(A, s).
@@ -98,6 +101,16 @@ class Lseries_complex(Lseries):
             sage: L(1)
             0.248431866590600
 
+            sage: L = J0(389)[0].lseries()
+            sage: L(1)
+            -1.33139759782370e-19
+            sage: L(1, prec=100)
+            6.0129758648142797032650287762e-39
+            sage: L(1, prec=1000)
+            -7.46610765587898431677000957418455139956572464436688616957157369065260675181137324142477006542647436814916899794789614011156560203601889815101437523013565419411039725709197934873390948453841944631215955932506784756667380518285856049984964694748789340955730909190986014322771399063714500274888411912721e-348
+            sage: L.rational_part()
+            0
+
             sage: from sage_modabvar import J1
             sage: L = J1(29)[0].lseries()
             sage: L(1)
@@ -107,24 +120,29 @@ class Lseries_complex(Lseries):
             sage: L = JH(17,[2]).lseries()
             sage: L(1)
             0.386769938387780
+
         """
         try:
-            factors = self.__factors
+            factors = self.__factors[prec]
+            return prod(L(s) for L in factors)
         except AttributeError:
-            abelian_variety = self.abelian_variety()
-            # Check for easy J0 case
-            if is_Gamma0(abelian_variety.group()) \
-            and abelian_variety.is_ambient():
-                S = CuspForms(abelian_variety.level())
-                newforms = S.newforms('a')
-            else:
-                simples = abelian_variety.decomposition()
-                newforms = [simple.newform('a') for simple in simples]
+            self.__factors = {}
+        except KeyError:
+            pass
+        abelian_variety = self.abelian_variety()
+        # Check for easy J0 case
+        if is_Gamma0(abelian_variety.group()) \
+        and abelian_variety.is_ambient():
+            S = CuspForms(abelian_variety.level())
+            newforms = S.newforms('a')
+        else:
+            simples = abelian_variety.decomposition()
+            newforms = [simple.newform('a') for simple in simples]
 
-            factors = [newform.lseries(embedding=i)
-                    for newform in newforms
-                    for i in range(newform.base_ring().degree())]
-            self.__factors = factors
+        factors = [newform.lseries(embedding=i, prec=prec)
+                for newform in newforms
+                for i in range(newform.base_ring().degree())]
+        self.__factors[prec] = factors
 
         return prod(L(s) for L in factors)
 
