@@ -26,7 +26,7 @@ TESTS::
 ###########################################################################
 
 from sage.structure.sage_object import SageObject
-from sage.rings.all import Integer, infinity, ZZ, QQ
+from sage.rings.all import Integer, infinity, ZZ, QQ, CC
 from sage.modules.free_module import span
 from sage.modular.modform.constructor import Newform, CuspForms
 from sage.modular.arithgroup.congroup_gamma0 import is_Gamma0
@@ -122,6 +122,10 @@ class Lseries_complex(Lseries):
             0.386769938387780
 
         """
+        abelian_variety = self.abelian_variety()
+        # Check for easy dimension zero case
+        if abelian_variety.dimension() == 0:
+            return CC(1)
         try:
             factors = self.__factors[prec]
             return prod(L(s) for L in factors)
@@ -189,6 +193,49 @@ class Lseries_complex(Lseries):
         """
         return "Complex L-series attached to %s"%self.abelian_variety()
 
+    def vanishes_at_1(self):
+        """
+        Return True if `L(1)=0` and return False otherwise.
+
+        OUTPUT:
+            a boolean
+
+        EXAMPLES::
+
+        Numerically, it appears that the `L`-series for J0(389) vanishes at 1.
+        This is confirmed by this algebraic computation. ::
+
+            sage: from sage_modabvar import J0, J1
+            sage: L = J0(389)[0].lseries(); L
+            Complex L-series attached to Simple abelian subvariety 389a(1,389) of dimension 1 of J0(389)
+            sage: L(1)
+            -1.33139759782370e-19
+            sage: L.vanishes_at_1()
+            True
+
+        Numerically, it appears that the `L`-series for J1(23) vanishes at 1.
+        But this algebraic computation shows otherwise. ::
+
+            sage: L = J1(23).lseries(); L
+            Complex L-series attached to Abelian variety J1(23) of dimension 12
+            sage: L(1)
+            1.71571957480487e-7
+            sage: L.vanishes_at_1()
+            False
+            sage: L(1, prec=100)
+            1.7157195748048518516191946658e-7
+        """
+        abelian_variety = self.abelian_variety()
+        # Check for easy dimension zero case
+        if abelian_variety.dimension() == 0:
+            return False
+        modular_symbols = abelian_variety.modular_symbols()
+        Phi = modular_symbols.rational_period_mapping()
+        ambient_module = modular_symbols.ambient_module()
+
+        e = ambient_module([0, infinity])
+        return Phi(e).is_zero()
+
     def rational_part(self):
         """
         Return the rational part of this `L`-function at the central critical
@@ -211,12 +258,11 @@ class Lseries_complex(Lseries):
         Phi = modular_symbols.rational_period_mapping()
         ambient_module = modular_symbols.ambient_module()
 
-        e = ambient_module([0,infinity])
-        if Phi(e).is_zero():
+        if self.vanishes_at_1():
             return QQ(0)
         else:
             s = ambient_module.sturm_bound()
-            I = ambient_module.hecke_images(0, range(1,s+1))
+            I = ambient_module.hecke_images(0, range(1, s+1))
             PhiTe = span([Phi(ambient_module(I[n]))
                 for n in range(I.nrows())], ZZ)
 
@@ -226,6 +272,8 @@ class Lseries_complex(Lseries):
             x in ambient_plus_cusp.integral_basis()], ZZ)
 
         return PhiTe.index_in(PhiH1plus)
+
+    lratio = rational_part
 
 class Lseries_padic(Lseries):
     """

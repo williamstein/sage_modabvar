@@ -41,6 +41,7 @@ from cuspidal_subgroup          import CuspidalSubgroup, RationalCuspidalSubgrou
 from sage.all                   import ZZ, QQ, QQbar, Integer, LCM, divisors, prime_range, next_prime
 from sage.rings.ring import is_Ring
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
+from sage.rings.infinity import infinity
 from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
@@ -2128,6 +2129,47 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             T = T.block_sum(M[i].hecke_matrix(n))
         self.__ambient_hecke_matrix_on_modular_symbols[n] = T
         return T
+
+    def number_of_rational_points(self):
+        """
+        Return the number of rational points of this modular abelian variety.
+
+        It is not always possible to compute the order of the torsion
+        subgroup. The BSD conjecture is assumed to compute the algebraic rank.
+
+        OUTPUT: a positive integer or infinity
+
+        EXAMPLES::
+
+            sage: from sage_modabvar import J0, J1
+            sage: J0(23).number_of_rational_points()
+            11
+            sage: J0(29).number_of_rational_points()
+            7
+            sage: J0(37).number_of_rational_points()
+            +Infinity
+
+            sage: J0(12); J0(12).number_of_rational_points()
+            Abelian variety J0(12) of dimension 0
+            1
+
+            sage: J1(17).number_of_rational_points()
+            Traceback (most recent call last):
+            ...
+            NotImplementedError: torsion multiple only implemented for Gamma0
+        """
+        # Check easy dimension zero case
+        if self.dimension() == 0:
+            return ZZ(1)
+
+        # The rank is positive if at least one simple has positive rank
+        positive_rank = any(simple.lseries().vanishes_at_1()
+                for simple in self.decomposition())
+
+        if positive_rank:
+            return infinity
+        else:
+            return self.rational_torsion_subgroup().order()
 
     def frobenius_polynomial(self, p):
         """
