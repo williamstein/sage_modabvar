@@ -336,7 +336,7 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: G.multiple_of_order(11)
             5
 
-        Increasing maxp will yield a tighter bound. If maxp=None, then Sage
+        Increasing maxp may yield a tighter bound. If maxp=None, then Sage
         will use more primes until the multiple stabilizes for 3 successive
         primes.  ::
 
