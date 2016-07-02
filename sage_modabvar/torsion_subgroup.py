@@ -93,9 +93,9 @@ TESTS::
 
 # Imports from the core sage library
 from sage.modules.module            import Module
-from sage.rings.all                 import ZZ
+from sage.rings.all                 import ZZ, QQ
 from sage.sets.primes               import Primes
-from sage.modular.arithgroup.all    import is_Gamma0
+from sage.modular.arithgroup.all    import is_Gamma0, is_Gamma1
 from sage.all                       import divisors, gcd, prime_range
 
 # Imports local to our abvar package
@@ -277,7 +277,7 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: J1(13).rational_torsion_subgroup().possible_orders()
             Traceback (most recent call last):
             ...
-            NotImplementedError: torsion multiple only implemented for Gamma0
+            NotImplementedError: computation of rational cusps only implemented in Gamma0 case.
         """
         try:
             return self._possible_orders
@@ -312,8 +312,11 @@ class RationalTorsionSubgroup(FiniteSubgroup):
         """
         Return a multiple of the order of this torsion group.
 
-        The multiple is computed using characteristic polynomials of Hecke
-        operators of odd index not dividing the level.
+        In the `Gamma_0` case, the multiple is computed using characteristic
+        polynomials of Hecke operators of odd index not dividing the level. In
+        the `Gamma_1` case, the multiple is computed by expressing the
+        frobenius polynomial in terms of the characteristic polynomial of left
+        multiplication by `a_p` for odd primes p not dividing the level.
 
         INPUT:
 
@@ -332,6 +335,11 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: G = J.rational_torsion_subgroup()
             sage: G.multiple_of_order(11)
             5
+
+        Increasing maxp may yield a tighter bound. If maxp=None, then Sage
+        will use more primes until the multiple stabilizes for 3 successive
+        primes.  ::
+
             sage: J = J0(389)
             sage: G = J.rational_torsion_subgroup(); G
             Torsion subgroup of Abelian variety J0(389) of dimension 32
@@ -344,13 +352,23 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: [G.multiple_of_order(p) for p in prime_range(3,19)]
             [92645296242160800, 7275, 291, 97, 97, 97]
 
-        ::
+        We can compute the multiple of order of the torsion subgroup for Gamma0
+        and Gamma1 varieties, and their products. ::
 
-            sage: from sage_modabvar import J0
-            sage: J = J0(33) * J0(11) ; J.rational_torsion_subgroup().order()
-            Traceback (most recent call last):
-            ...
-            NotImplementedError: torsion multiple only implemented for Gamma0
+            sage: from sage_modabvar import J1
+            sage: A = J0(11) * J0(33)
+            sage: A.rational_torsion_subgroup().multiple_of_order()
+            1000
+
+            sage: A = J1(23)
+            sage: A.rational_torsion_subgroup().multiple_of_order()
+            9406793
+            sage: A.rational_torsion_subgroup().multiple_of_order(maxp=50)
+            408991
+
+            sage: A = J1(19) * J0(21)
+            sage: A.rational_torsion_subgroup().multiple_of_order()
+            35064
 
         The next example illustrates calling this function with a larger
         input and how the result may be cached when maxp is None::
@@ -363,30 +381,38 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             7
             sage: T.multiple_of_order()
             7
+
+        This function is not implemented for general congruence subgroups
+        unless the dimension is zero. ::
+
+            sage: from sage_modabvar import JH
+            sage: A = JH(13,[2]); A
+            Abelian variety J0(13) of dimension 0
+            sage: A.rational_torsion_subgroup().multiple_of_order()
+            1
+
+            sage: A = JH(15, [2]); A
+            Abelian variety JH(15,[2]) of dimension 1
+            sage: A.rational_torsion_subgroup().multiple_of_order()
+            Traceback (most recent call last):
+            ...
+            NotImplementedError: torsion multiple only implemented for Gamma0 and Gamma1
         """
         if maxp is None:
             try:
                 return self.__multiple_of_order
             except AttributeError:
                 pass
-        bnd = ZZ(0)
         A = self.abelian_variety()
         if A.dimension() == 0:
             T = ZZ(1)
             self.__multiple_of_order = T
             return T
+        if not all((is_Gamma0(G) or is_Gamma1(G) for G in A.groups())):
+            raise NotImplementedError("torsion multiple only implemented for Gamma0 and Gamma1")
+
+        bnd = ZZ(0)
         N = A.level()
-        if not (len(A.groups()) == 1 and is_Gamma0(A.groups()[0])):
-            # to generalize to this case, you'll need to
-            # (1) define a charpoly_of_frob function:
-            #       this is tricky because I don't know a simple
-            #       way to do this for Gamma1 and GammaH.  Will
-            #       probably have to compute explicit matrix for
-            #       <p> operator (add to modular symbols code),
-            #       then compute some charpoly involving
-            #       that directly...
-            # (2) use (1) -- see my MAGMA code.
-            raise NotImplementedError("torsion multiple only implemented for Gamma0")
         cnt = 0
         if maxp is None:
             X = Primes()
@@ -396,8 +422,38 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             if (2*N) % p == 0:
                 continue
 
-            f = A.hecke_polynomial(p)
-            b = ZZ(f(p+1))
+            if (len(A.groups()) == 1 and is_Gamma0(A.groups()[0])):
+                f = A.hecke_polynomial(p)
+                b = ZZ(f(p+1))
+            else:
+                D = A.decomposition()
+                b = 1
+                for simple in D:
+                    G = simple.newform_level()[1]
+                    if is_Gamma0(G):
+                        f = simple.hecke_polynomial(p)
+                        b *= ZZ(f(p+1))
+                    else:
+                        f = simple.newform('a')
+                        Kf = f.base_ring()
+                        eps = f.character()
+                        Qe = eps.base_ring()
+
+                        if Kf != QQ:
+                            # relativize number fields to compute charpoly of
+                            # left multiplication of ap on Kf as a Qe-vector
+                            # space.
+                            Lf = Kf.relativize(Qe.gen(), 'a')
+                            to_Lf = Lf.structure()[1]
+
+                            name = Kf._names[0]
+                            ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
+
+                            G_ps = ap.matrix().charpoly()
+                            b *= ZZ(Qe(G_ps(1 + to_Lf(eps(p))*p)).norm())
+                        else:
+                            ap = f.modular_symbols(1).eigenvalue(p)
+                            b *= ZZ(1 + eps(p)*p - ap)
 
             if bnd == 0:
                 bnd = b

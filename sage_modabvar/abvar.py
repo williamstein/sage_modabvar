@@ -2156,7 +2156,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: J1(17).number_of_rational_points()
             Traceback (most recent call last):
             ...
-            NotImplementedError: torsion multiple only implemented for Gamma0
+            NotImplementedError: computation of rational cusps only implemented in Gamma0 case.
         """
         # Check easy dimension zero case
         if self.dimension() == 0:
