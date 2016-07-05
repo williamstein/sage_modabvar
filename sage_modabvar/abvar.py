@@ -46,12 +46,13 @@ from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
 from sage.modular.modsym.space  import ModularSymbolsSpace
-from sage.modular.modform.constructor  import Newforms
+from sage.modular.modform.constructor  import Newform
 from sage.matrix.all            import matrix, block_diagonal_matrix, identity_matrix
 from sage.modules.all           import vector
 from sage.groups.all            import AbelianGroup
 from sage.databases.cremona     import cremona_letter_code
 from sage.misc.all              import prod
+from sage.arith.misc            import is_prime
 
 from copy import copy
 
@@ -468,8 +469,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         the newform abelian variety `A_f`. If this abelian variety is not
         simple, raise a ValueError.
 
-        INPUT: 
-        
+        INPUT:
+
         - ``names`` -- (default: None) If the newform has coefficients in a
           number field, then a generator name must be specified.
 
@@ -480,10 +481,17 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: from sage_modabvar import J0
             sage: J0(11).newform()
             q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6)
+
             sage: from sage_modabvar import AbelianVariety
             sage: f = J0(23).newform(names='a')
             sage: AbelianVariety(f) == J0(23)
             True
+
+            sage: J = J0(33)
+            sage: [s.newform('a') for s in J.decomposition()]
+            [q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6),
+             q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6),
+             q + q^2 - q^3 - q^4 - 2*q^5 + O(q^6)]
 
         The following fails since `J_0(33)` is not simple::
 
@@ -493,9 +501,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ...
             ValueError: self must be simple
         """
-        N, G = self.newform_level()
-        return Newforms(G, names=names)[self.isogeny_number()]
-
+        return Newform(self.newform_label(), names=names)
 
     def newform_label(self):
         """
@@ -2173,8 +2179,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
     def frobenius_polynomial(self, p):
         """
-        Computes the frobenius polynomial at `p`. If this abelian variety is not
-        simple, raise a ValueError.
+        Computes the frobenius polynomial at `p`.
 
         INPUT:
 
@@ -2196,20 +2201,56 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: J=J0(23)
             sage: J.frobenius_polynomial(997)
             x^4 + 20*x^3 + 1374*x^2 + 19940*x + 994009
+
+            sage: J = J0(33)
+            sage: J.frobenius_polynomial(7)
+            x^6 + 9*x^4 - 16*x^3 + 63*x^2 + 343
+
+            sage: from sage_modabvar import J1
+            sage: A = J1(27)[1]; A
+            Simple abelian subvariety 27bG1(1,27) of dimension 12 of J1(27)
+            sage: A.frobenius_polynomial(11)
+            x^24 - 3*x^23 - 15*x^22 + 126*x^21 - 201*x^20 - 1488*x^19 + 7145*x^18 - 1530*x^17 - 61974*x^16 + 202716*x^15 - 19692*x^14 - 1304451*x^13 + 4526883*x^12 - 14348961*x^11 - 2382732*x^10 + 269814996*x^9 - 907361334*x^8 - 246408030*x^7 + 12657803345*x^6 - 28996910448*x^5 - 43086135081*x^4 + 297101409066*x^3 - 389061369015*x^2 - 855935011833*x + 3138428376721
+
         """
+        if not is_prime(p):
+            raise ValueError("p must be prime")
+        if not self.is_simple():
+            return prod((s.frobenius_polynomial(p) for s in
+                         self.decomposition()))
+
         f = self.newform('a')
         Kf = f.base_ring()
-        name = Kf._names[0]
-        ap = f.modular_symbols(1).eigenvalue(p, name)
         eps = f.character()
-        L = Kf.galois_closure('a')
-        emb = Kf.embeddings(L)[0]
+        Qe = f.base_ring()
+        d = Kf.degree() / Qe.degree()
 
-        R = PolynomialRing(ZZ, 'x')
+        R = PolynomialRing(QQ, 'x')
+        S = PolynomialRing(ZZ, 'x')
         x = R.gen()
-        return R(prod([x**2 - sigma(emb(ap))*x + sigma(emb(eps(p)))*p 
-            for sigma in L.embeddings(L)]))
 
+        if Kf != QQ:
+            # relativize number fields to compute charpoly of
+            # left multiplication of ap on Kf as a Qe-vector
+            # space.
+            Lf = Kf.relativize(Qe.gen(), 'a')
+            to_Lf = Lf.structure()[1]
+
+            name = Kf._names[0]
+            ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
+
+            Gp = ap.matrix().charpoly()
+            points = [(Y, Qe(Y**d * Gp(Y + to_Lf((eps(p)) * p) / Y)).norm())
+                      for Y in range(1, 2*Kf.degree()+2)]
+        else:
+            ap = f.modular_symbols(1).eigenvalue(p)
+            Gp = x - ap
+
+            points = [(Y, Qe(Y**d * Gp(Y + (eps(p) * p) / Y)).norm())
+                      for Y in range(1, 2*Kf.degree()+2)]
+
+        f = R.lagrange_polynomial(points)
+        return S(f)
 
     ###############################################################################
     # Rational and Integral Homology
