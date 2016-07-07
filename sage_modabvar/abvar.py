@@ -2177,7 +2177,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         else:
             return self.rational_torsion_subgroup().order()
 
-    def frobenius_polynomial(self, p):
+    def frobenius_polynomial(self, p, var='x'):
         """
         Computes the frobenius polynomial at `p`.
 
@@ -2206,6 +2206,10 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: J.frobenius_polynomial(7)
             x^6 + 9*x^4 - 16*x^3 + 63*x^2 + 343
 
+            sage: J = J0(19)
+            sage: J.frobenius_polynomial(3, var='y')
+            y^2 + 2*y + 3
+
             sage: from sage_modabvar import J1
             sage: A = J1(27)[1]; A
             Simple abelian subvariety 27bG1(1,27) of dimension 12 of J1(27)
@@ -2226,8 +2230,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         d = Kf.degree() / Qe.degree()
 
         R = PolynomialRing(QQ, 'x')
-        S = PolynomialRing(ZZ, 'x')
-        x = R.gen()
+        S = PolynomialRing(ZZ, var)
 
         if Kf != QQ:
             # relativize number fields to compute charpoly of
@@ -2235,19 +2238,15 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             # space.
             Lf = Kf.relativize(Qe.gen(), 'a')
             to_Lf = Lf.structure()[1]
-
-            name = Kf._names[0]
-            ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
-
-            Gp = ap.matrix().charpoly()
-            points = [(Y, Qe(Y**d * Gp(Y + to_Lf((eps(p)) * p) / Y)).norm())
-                      for Y in range(1, 2*Kf.degree()+2)]
         else:
-            ap = f.modular_symbols(1).eigenvalue(p)
-            Gp = x - ap
+            to_Lf = lambda z: z
 
-            points = [(Y, Qe(Y**d * Gp(Y + (eps(p) * p) / Y)).norm())
-                      for Y in range(1, 2*Kf.degree()+2)]
+        name = Kf._names[0]
+        ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
+
+        Gp = ap.charpoly(var='x')
+        points = [(Y, Qe(Y**d * Gp(Y + to_Lf((eps(p)) * p) / Y)).norm())
+                  for Y in range(1, 2*Kf.degree()+2)]
 
         f = R.lagrange_polynomial(points)
         return S(f)
