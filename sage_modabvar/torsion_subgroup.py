@@ -97,6 +97,8 @@ from sage.rings.all                 import ZZ, QQ
 from sage.sets.primes               import Primes
 from sage.modular.arithgroup.all    import is_Gamma0, is_Gamma1
 from sage.all                       import divisors, gcd, prime_range
+from sage.modular.dirichlet         import DirichletGroup
+from sage.misc.misc_c               import prod
 
 # Imports local to our abvar package
 from torsion_point   import TorsionPoint
@@ -179,23 +181,40 @@ class RationalTorsionSubgroup(FiniteSubgroup):
         `p` exceeds the divisor obtained from the rational cuspidal
         subgroup.
 
+        OUTPUT:
+
+        The order of this torsion subgroup.
+
         EXAMPLES::
 
             sage: from sage_modabvar import J0
-            sage: a = J0(11)
-            sage: a.rational_torsion_subgroup().order()
+            sage: A = J0(11)
+            sage: A.rational_torsion_subgroup().order()
             5
-            sage: a = J0(23)
-            sage: a.rational_torsion_subgroup().order()
+            sage: A = J0(23)
+            sage: A.rational_torsion_subgroup().order()
             11
-            sage: t = J0(37)[1].rational_torsion_subgroup()
-            sage: t.order()
+            sage: T = J0(37)[1].rational_torsion_subgroup()
+            sage: T.order()
             3
+
+            sage: from sage_modabvar import J1
+            sage: J = J1(13)
+            sage: J.rational_torsion_subgroup().order()
+            19
         """
         try:
             return self._order
         except AttributeError:
             pass
+
+        # return the order of the cuspidal subgroup in the J0(p) case
+        A = self.abelian_variety()
+        if (A.is_ambient() and len(A.groups()) == 1 and
+                is_Gamma0(A.group()) and A.level().is_prime()):
+            self._order = QQ((A.level()-1)/12).numerator()
+            return self._order
+
         O = self.possible_orders()
         if len(O) == 1:
             n = O[0]
@@ -269,15 +288,11 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: J0(33).rational_torsion_subgroup().possible_orders()
             [100, 200]
 
-        Note that this function has not been implemented for `J_1(N)`,
-        though it should be reasonably easy to do so soon (see Conrad,
-        Edixhoven, Stein)::
-
             sage: from sage_modabvar import J1
             sage: J1(13).rational_torsion_subgroup().possible_orders()
-            Traceback (most recent call last):
-            ...
-            NotImplementedError: computation of rational cusps only implemented in Gamma0 case.
+            [19]
+            sage: J1(15).rational_torsion_subgroup().possible_orders()
+            [1, 2, 4, 8]
         """
         try:
             return self._possible_orders
@@ -285,6 +300,7 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             pass
         u = self.multiple_of_order()
         l = self.divisor_of_order()
+
         assert u % l == 0
         O = [l * d for d in divisors(u//l)]
         self._possible_orders = O
@@ -295,18 +311,41 @@ class RationalTorsionSubgroup(FiniteSubgroup):
         Return a divisor of the order of this torsion subgroup of a modular
         abelian variety.
 
+        OUTPUT:
+
+        A divisor of this torsion subgroup.
+
         EXAMPLES::
 
             sage: from sage_modabvar import J0
             sage: t = J0(37)[1].rational_torsion_subgroup()
             sage: t.divisor_of_order()
             3
+
+            sage: from sage_modabvar import J1
+            sage: J = J1(19)
+            sage: J.rational_torsion_subgroup().divisor_of_order()
+            4383
+
         """
         A = self.abelian_variety()
         if A.dimension() == 0:
             return ZZ(1)
-        R = A.rational_cusp_subgroup()
-        return R.order()
+
+        # The J1(p) case for p >= 5
+        N = A.level()
+        if (A.is_ambient() and len(A.groups()) == 1 and
+                is_Gamma1(A.group()) and N >= 5 and N.is_prime()):
+            epsilons = [epsilon for epsilon in DirichletGroup(N)
+                        if not epsilon.is_trivial() and epsilon.is_even()]
+            bernoullis = [epsilon.bernoulli(2) for epsilon in epsilons]
+            return ZZ(N/(2**(N-3))*prod(bernoullis))
+
+        if all(is_Gamma0(G) for G in A.groups()):
+            R = A.rational_cusp_subgroup()
+            return R.order()
+
+        return ZZ(1)
 
     def multiple_of_order(self, maxp=None):
         """
