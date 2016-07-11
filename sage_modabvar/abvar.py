@@ -2160,9 +2160,13 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             1
 
             sage: J1(17).number_of_rational_points()
+            584
+
+            sage: J1(14).number_of_rational_points()
             Traceback (most recent call last):
             ...
-            NotImplementedError: computation of rational cusps only implemented in Gamma0 case.
+            RuntimeError: Unable to compute order of torsion subgroup (it is in [1, 2, 3, 6])
+
         """
         # Check easy dimension zero case
         if self.dimension() == 0:
