@@ -179,6 +179,52 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         return self.__groups
 
+    def is_J0(self):
+        """
+        Returns whether of not self is of the form J0(N).
+
+        OUTPUT: bool
+
+        EXAMPLES::
+
+            sage: from sage_modabvar import J0, J1
+            sage: J0(23).is_J0()
+            True
+            sage: J1(11).is_J0()
+            False
+            sage: (J0(23) * J1(11)).is_J0()
+            False
+            sage: J0(37)[0].is_J0()
+            False
+            sage: (J0(23) * J0(21)).is_J0()
+            False
+        """
+        return len(self.groups()) == 1 and is_Gamma0(self.groups()[0]) \
+            and self.is_ambient()
+
+    def is_J1(self):
+        """
+        Returns whether of not self is of the form J1(N).
+
+        OUTPUT: bool
+
+        EXAMPLES::
+
+            sage: from sage_modabvar import J0, J1
+            sage: J1(23).is_J1()
+            True
+            sage: J0(23).is_J1()
+            False
+            sage: (J1(11) * J1(13)).is_J1()
+            False
+            sage: (J1(11) * J0(13)).is_J1()
+            False
+            sage: J1(23)[0].is_J1()
+            False
+        """
+        return len(self.groups()) == 1 and is_Gamma1(self.groups()[0]) \
+            and self.is_ambient()
+
     #############################################################################
     # lattice() *must* be defined by every derived class!!!!
     def lattice(self):

@@ -329,13 +329,12 @@ class RationalTorsionSubgroup(FiniteSubgroup):
 
         """
         A = self.abelian_variety()
+        N = A.level()
         if A.dimension() == 0:
             return ZZ(1)
 
-        # The J1(p) case for p >= 5
-        N = A.level()
-        if (A.is_ambient() and len(A.groups()) == 1 and
-                is_Gamma1(A.group()) and N >= 5 and N.is_prime()):
+        # The J1(p) case
+        if A.is_J1() and N.is_prime():
             epsilons = [epsilon for epsilon in DirichletGroup(N)
                         if not epsilon.is_trivial() and epsilon.is_even()]
             bernoullis = [epsilon.bernoulli(2) for epsilon in epsilons]

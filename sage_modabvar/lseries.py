@@ -116,6 +116,10 @@ class Lseries_complex(Lseries):
             sage: L(1)
             0.291521565699153
 
+            sage: J = J0(11) * J1(11)
+            sage: J.lseries()(1)
+            0.0644356903227915
+
             sage: from sage_modabvar import JH
             sage: L = JH(17,[2]).lseries()
             sage: L(1)
@@ -135,8 +139,7 @@ class Lseries_complex(Lseries):
             pass
         abelian_variety = self.abelian_variety()
         # Check for easy J0 case
-        if is_Gamma0(abelian_variety.group()) \
-        and abelian_variety.is_ambient():
+        if abelian_variety.is_J0():
             S = CuspForms(abelian_variety.level())
             newforms = S.newforms('a')
         else:
