@@ -616,7 +616,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: E.lseries()(1)
             0.725681061936153
 
-            Elliptic curves are of dimension 1. ::
+        Elliptic curves are of dimension 1. ::
 
             sage: J = J0(23)
             sage: J.elliptic_curve()
@@ -624,7 +624,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ...
             ValueError: self must be of dimension 1
 
-            This is only implemented for curves over QQ. ::
+        This is only implemented for curves over QQ. ::
 
             sage: J = J0(11).change_ring(CC)
             sage: J.elliptic_curve()
