@@ -590,12 +590,11 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return an elliptic curve isogenous to self. If self is not dimension 1
         with rational base ring, raise a ValueError.
 
-        The elliptic curve is found by looking it up in Cremona's tables. The
-        default mini-CremonaDatabase contains curves up to conductor 10000 and
-        the optional full CremonaDatabase contains curves up to conductor
-        379998. If a curve is not found in the CremonaDatabase, a RuntimeError
-        will be raised. In practice, only the most committed users will see
-        this RuntimeError.
+        The elliptic curve is found by looking it up in the CremonaDatabase.
+        The CremonaDatabase contains all curves up to some large conductor.  If
+        a curve is not found in the CremonaDatabase, a RuntimeError will be
+        raised. In practice, only the most committed users will see this
+        RuntimeError.
 
         OUTPUT: an elliptic curve isogenous to self.
 
@@ -617,6 +616,21 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: E.lseries()(1)
             0.725681061936153
 
+            Elliptic curves are of dimension 1. ::
+
+            sage: J = J0(23)
+            sage: J.elliptic_curve()
+            Traceback (most recent call last):
+            ...
+            ValueError: self must be of dimension 1
+
+            This is only implemented for curves over QQ. ::
+
+            sage: J = J0(11).change_ring(CC)
+            sage: J.elliptic_curve()
+            Traceback (most recent call last):
+            ...
+            ValueError: base ring must be QQ
         """
 
         if self.dimension() > 1:
