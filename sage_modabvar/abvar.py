@@ -590,7 +590,12 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         Return an elliptic curve isogenous to self. If self is not dimension 1
         with rational base ring, raise a ValueError.
 
-        The elliptic curve is found by looking it up in Cremona's tables.
+        The elliptic curve is found by looking it up in Cremona's tables. The
+        default mini-CremonaDatabase contains curves up to conductor 10000 and
+        the optional full CremonaDatabase contains curves up to conductor
+        379998. If a curve is not found in the CremonaDatabase, a RuntimeError
+        will be raised. In practice, only the most committed users will see
+        this RuntimeError.
 
         OUTPUT: an elliptic curve isogenous to self.
 
@@ -635,7 +640,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         isogeny_classes = c.isogeny_classes(N)
         curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
 
-        return [E for E in curves if isogeny_check(E)][0]
+        return next(E for E in curves if isogeny_check(E))
 
     def _isogeny_to_newform_abelian_variety(self):
         r"""
