@@ -53,6 +53,8 @@ from sage.groups.all            import AbelianGroup
 from sage.databases.cremona     import cremona_letter_code
 from sage.misc.all              import prod
 from sage.arith.misc            import is_prime
+from sage.databases.cremona     import CremonaDatabase
+from sage.schemes.elliptic_curves.constructor import EllipticCurve
 
 from copy import copy
 
@@ -582,6 +584,77 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         elif is_GammaH(G):
             group = 'GH%s'%(str(G._generators_for_H()).replace(' ',''))
         return '%s%s%s'%(N, cremona_letter_code(self.isogeny_number()), group)
+
+    def elliptic_curve(self):
+        """
+        Return an elliptic curve isogenous to self. If self is not dimension 1
+        with rational base ring, raise a ValueError.
+
+        The elliptic curve is found by looking it up in the CremonaDatabase.
+        The CremonaDatabase contains all curves up to some large conductor.  If
+        a curve is not found in the CremonaDatabase, a RuntimeError will be
+        raised. In practice, only the most committed users will see this
+        RuntimeError.
+
+        OUTPUT: an elliptic curve isogenous to self.
+
+        EXAMPLES::
+
+            sage: from sage_modabvar import J0
+            sage: J = J0(11)
+            sage: J.elliptic_curve()
+            Elliptic Curve defined by y^2 + y = x^3 - x^2 - 10*x - 20 over Rational Field
+
+            sage: J = J0(49)
+            sage: J.elliptic_curve()
+            Elliptic Curve defined by y^2 + x*y = x^3 - x^2 - 2*x - 1 over Rational Field
+
+            sage: A = J0(37)[1]
+            sage: E = A.elliptic_curve()
+            sage: A.lseries()(1)
+            0.725681061936153
+            sage: E.lseries()(1)
+            0.725681061936153
+
+            Elliptic curves are of dimension 1. ::
+
+            sage: J = J0(23)
+            sage: J.elliptic_curve()
+            Traceback (most recent call last):
+            ...
+            ValueError: self must be of dimension 1
+
+            This is only implemented for curves over QQ. ::
+
+            sage: J = J0(11).change_ring(CC)
+            sage: J.elliptic_curve()
+            Traceback (most recent call last):
+            ...
+            ValueError: base ring must be QQ
+        """
+
+        if self.dimension() > 1:
+            raise ValueError("self must be of dimension 1")
+        if self.base_ring() != QQ:
+            raise ValueError("base ring must be QQ")
+
+        f = self.newform('a')
+        N = f.level()
+
+        c = CremonaDatabase()
+        if N > c.largest_conductor():
+            raise RuntimeError("Elliptic curve not found" +
+                               " in installed database")
+
+        sturm = ModularSymbols(N, 2).sturm_bound()
+        a = lambda p: f.modular_symbols(1).eigenvalue(p, 'a')
+        aps = [a(p) for p in prime_range(sturm+1)]
+        isogeny_check = lambda E: E.aplist(sturm) == aps
+
+        isogeny_classes = c.isogeny_classes(N)
+        curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
+
+        return next(E for E in curves if isogeny_check(E))
 
     def _isogeny_to_newform_abelian_variety(self):
         r"""
