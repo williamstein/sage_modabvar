@@ -55,6 +55,7 @@ from sage.misc.all              import prod
 from sage.arith.misc            import is_prime
 from sage.databases.cremona     import CremonaDatabase
 from sage.schemes.elliptic_curves.constructor import EllipticCurve
+from sage.sets.primes           import Primes
 
 from copy import copy
 
@@ -650,14 +651,15 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         isogeny_classes = c.isogeny_classes(N)
         curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
-        p = 0
-        while len(curves) > 1:
-            p = next_prime(p)
+
+        if len(curves) == 1:
+            return curves[0]
+        for p in Primes():
             for E in curves:
                 if E.ap(p) != a(p):
                     curves.remove(E)
-
-        return curves[0]
+                    if len(curves) == 1:
+                        return curves[0]
 
     def _isogeny_to_newform_abelian_variety(self):
         r"""
