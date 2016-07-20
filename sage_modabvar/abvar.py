@@ -646,15 +646,18 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             raise RuntimeError("Elliptic curve not found" +
                                " in installed database")
 
-        sturm = ModularSymbols(N, 2).sturm_bound()
         a = lambda p: f.modular_symbols(1).eigenvalue(p, 'a')
-        aps = [a(p) for p in prime_range(sturm+1)]
-        isogeny_check = lambda E: E.aplist(sturm) == aps
 
         isogeny_classes = c.isogeny_classes(N)
         curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
+        p = 0
+        while len(curves) > 1:
+            p = next_prime(p)
+            for E in curves:
+                if E.ap(p) != a(p):
+                    curves.remove(E)
 
-        return next(E for E in curves if isogeny_check(E))
+        return curves[0]
 
     def _isogeny_to_newform_abelian_variety(self):
         r"""
