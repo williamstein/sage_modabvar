@@ -55,6 +55,7 @@ from sage.misc.all              import prod
 from sage.arith.misc            import is_prime
 from sage.databases.cremona     import CremonaDatabase
 from sage.schemes.elliptic_curves.constructor import EllipticCurve
+from sage.sets.primes           import Primes
 
 from copy import copy
 
@@ -616,7 +617,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: E.lseries()(1)
             0.725681061936153
 
-            Elliptic curves are of dimension 1. ::
+        Elliptic curves are of dimension 1. ::
 
             sage: J = J0(23)
             sage: J.elliptic_curve()
@@ -624,7 +625,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ...
             ValueError: self must be of dimension 1
 
-            This is only implemented for curves over QQ. ::
+        This is only implemented for curves over QQ. ::
 
             sage: J = J0(11).change_ring(CC)
             sage: J.elliptic_curve()
@@ -646,15 +647,19 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             raise RuntimeError("Elliptic curve not found" +
                                " in installed database")
 
-        sturm = ModularSymbols(N, 2).sturm_bound()
         a = lambda p: f.modular_symbols(1).eigenvalue(p, 'a')
-        aps = [a(p) for p in prime_range(sturm+1)]
-        isogeny_check = lambda E: E.aplist(sturm) == aps
 
         isogeny_classes = c.isogeny_classes(N)
         curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
 
-        return next(E for E in curves if isogeny_check(E))
+        if len(curves) == 1:
+            return curves[0]
+        for p in Primes():
+            for E in curves:
+                if E.ap(p) != a(p):
+                    curves.remove(E)
+                    if len(curves) == 1:
+                        return curves[0]
 
     def _isogeny_to_newform_abelian_variety(self):
         r"""
