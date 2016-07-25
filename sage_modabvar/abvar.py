@@ -41,7 +41,9 @@ from cuspidal_subgroup          import CuspidalSubgroup, RationalCuspidalSubgrou
 from sage.all                   import ZZ, QQ, QQbar, Integer, LCM, divisors, prime_range, next_prime
 from sage.rings.ring import is_Ring
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
+from sage.rings.polynomial.polynomial_element import Polynomial
 from sage.rings.infinity import infinity
+from sage.rings.fraction_field import FractionField
 from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
@@ -56,6 +58,7 @@ from sage.arith.misc            import is_prime
 from sage.databases.cremona     import CremonaDatabase
 from sage.schemes.elliptic_curves.constructor import EllipticCurve
 from sage.sets.primes           import Primes
+from sage.functions.other       import real
 
 from copy import copy
 
@@ -2338,46 +2341,77 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: J.frobenius_polynomial(3, var='y')
             y^2 + 2*y + 3
 
+            sage: J = J0(3); J
+            Abelian variety J0(3) of dimension 0
+            sage: J.frobenius_polynomial(11)
+            1
+
             sage: from sage_modabvar import J1
             sage: A = J1(27)[1]; A
             Simple abelian subvariety 27bG1(1,27) of dimension 12 of J1(27)
             sage: A.frobenius_polynomial(11)
             x^24 - 3*x^23 - 15*x^22 + 126*x^21 - 201*x^20 - 1488*x^19 + 7145*x^18 - 1530*x^17 - 61974*x^16 + 202716*x^15 - 19692*x^14 - 1304451*x^13 + 4526883*x^12 - 14348961*x^11 - 2382732*x^10 + 269814996*x^9 - 907361334*x^8 - 246408030*x^7 + 12657803345*x^6 - 28996910448*x^5 - 43086135081*x^4 + 297101409066*x^3 - 389061369015*x^2 - 855935011833*x + 3138428376721
 
+            sage: J = J1(33)
+            sage: J.frobenius_polynomial(11)
+            Traceback (most recent call last):
+            ...
+            ValueError: p must not divide the level of self
+            sage: J.frobenius_polynomial(4)
+            Traceback (most recent call last):
+            ...
+            ValueError: p must be prime
         """
+        if self.dimension() == 0:
+            return ZZ(1)
+        if self.level() % p == 0:
+            raise ValueError("p must not divide the level of self")
         if not is_prime(p):
             raise ValueError("p must be prime")
         if not self.is_simple():
             return prod((s.frobenius_polynomial(p) for s in
                          self.decomposition()))
-
         f = self.newform('a')
         Kf = f.base_ring()
         eps = f.character()
-        Qe = f.base_ring()
+        Qe = eps.base_ring()
         d = Kf.degree() / Qe.degree()
 
-        R = PolynomialRing(QQ, 'x')
-        S = PolynomialRing(ZZ, var)
+        ZZpoly = PolynomialRing(ZZ, var)
+        z = ZZpoly.gens()[0]
 
-        if Kf != QQ:
-            # relativize number fields to compute charpoly of
-            # left multiplication of ap on Kf as a Qe-vector
-            # space.
-            Lf = Kf.relativize(Qe.gen(), 'a')
-            to_Lf = Lf.structure()[1]
-        else:
-            to_Lf = lambda z: z
+        if Qe == QQ:
+            Gp = self.hecke_polynomial(p)
+            ans = ZZpoly(z**d * Gp(z+p/z))
+            return ans
+
+        # relativize number fields to compute charpoly of
+        # left multiplication of ap on Kf as a Qe-vector
+        # space.
+        Lf = Kf.relativize(Qe.gen(), 'a')
+        to_Lf = Lf.structure()[1]
+
+        # Re is just Qe with a different name
+        Re = Lf.base_field()
+        to_Re = Qe.hom(Re.gens()[0], Re)
 
         name = Kf._names[0]
         ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
 
         Gp = ap.charpoly(var='x')
-        points = [(Y, Qe(Y**d * Gp(Y + to_Lf((eps(p)) * p) / Y)).norm())
-                  for Y in range(1, 2*Kf.degree()+2)]
 
-        f = R.lagrange_polynomial(points)
-        return S(f)
+        S = PolynomialRing(Re, 'x')
+        x = S.gens()[0]
+        h = S(x**d * Gp(x=x+to_Re(eps(p))*p/x))
+
+        # take Qe norm
+        QQbarpoly = PolynomialRing(QQbar, 'x')
+        ans = 1
+        for sigma in Re.embeddings(QQbar):
+            factor = QQbarpoly([sigma(c) for c in h])
+            ans *= factor
+
+        return ZZpoly(ans)
 
     ###############################################################################
     # Rational and Integral Homology
