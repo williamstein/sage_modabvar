@@ -41,7 +41,9 @@ from cuspidal_subgroup          import CuspidalSubgroup, RationalCuspidalSubgrou
 from sage.all                   import ZZ, QQ, QQbar, Integer, LCM, divisors, prime_range, next_prime
 from sage.rings.ring import is_Ring
 from sage.rings.polynomial.polynomial_ring_constructor import PolynomialRing
+from sage.rings.polynomial.polynomial_element import Polynomial
 from sage.rings.infinity import infinity
+from sage.rings.fraction_field import FractionField
 from sage.modules.free_module   import is_FreeModule
 from sage.modular.arithgroup.all import is_CongruenceSubgroup, is_Gamma0, is_Gamma1, is_GammaH
 from sage.modular.modsym.all    import ModularSymbols
@@ -56,6 +58,7 @@ from sage.arith.misc            import is_prime
 from sage.databases.cremona     import CremonaDatabase
 from sage.schemes.elliptic_curves.constructor import EllipticCurve
 from sage.sets.primes           import Primes
+from sage.functions.other       import real
 
 from copy import copy
 
@@ -2394,15 +2397,20 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         name = Kf._names[0]
         ap = to_Lf(f.modular_symbols(1).eigenvalue(p, name))
-
         Gp = ap.charpoly(var='x')
 
-        points = [(Y, Qe(Y**d * Gp(Y + to_Lf((eps(p)) * p) / Y)).norm())
-                  for Y in range(1, 2*Kf.degree()+2)]
+        S = PolynomialRing(Re, 'x')
+        x = S.gens()[0]
+        h = S(x**d * Gp(x=x+to_Re(eps(p))*p/x))
 
-        QQpoly = PolynomialRing(QQ, 'x')
-        f = QQpoly.lagrange_polynomial(points)
-        return ZZpoly(f)
+        # take Qe norm
+        R = PolynomialRing(QQ, ['x', 'y'])
+        x, y = R.gens()
+        g = Qe.defining_polynomial()
+        H = sum(h[i].lift() * y**i for i in range(h.degree()+1))
+        ans = g.resultant(H)
+
+        return ZZpoly(ans.univariate_polynomial())
 
     ###############################################################################
     # Rational and Integral Homology
