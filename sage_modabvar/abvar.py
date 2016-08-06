@@ -650,8 +650,6 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             raise RuntimeError("Elliptic curve not found" +
                                " in installed database")
 
-        a = lambda p: f.modular_symbols(1).eigenvalue(p, 'a')
-
         isogeny_classes = c.isogeny_classes(N)
         curves = [EllipticCurve(x[0][0]) for x in isogeny_classes]
 
@@ -659,7 +657,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             return curves[0]
         for p in Primes():
             for E in curves:
-                if E.ap(p) != a(p):
+                if E.ap(p) != f.coefficient(p):
                     curves.remove(E)
                     if len(curves) == 1:
                         return curves[0]
