@@ -514,7 +514,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         degen = str(self.degen_t()).replace(' ','')
         return '%s%s'%(self.newform_label(), degen)
-    
+
     def newform(self, names=None):
         """
         Return the newform `f` such that this abelian variety is isogenous to
@@ -650,6 +650,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             raise RuntimeError("Elliptic curve not found" +
                                " in installed database")
 
+        # change when merging into core sage
         a = lambda p: f.modular_symbols(1).eigenvalue(p, 'a')
 
         isogeny_classes = c.isogeny_classes(N)
@@ -660,6 +661,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         for p in Primes():
             for E in curves:
                 if E.ap(p) != a(p):
+                # change when merging into core sage
+                # if E.ap(p) != f.coefficient(p):
                     curves.remove(E)
                     if len(curves) == 1:
                         return curves[0]
