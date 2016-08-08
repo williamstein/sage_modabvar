@@ -138,13 +138,7 @@ class Lseries_complex(Lseries):
         except KeyError:
             pass
         abelian_variety = self.abelian_variety()
-        # Check for easy J0 case
-        if abelian_variety.is_J0():
-            S = CuspForms(abelian_variety.level())
-            newforms = S.newforms('a')
-        else:
-            simples = abelian_variety.decomposition()
-            newforms = [simple.newform('a') for simple in simples]
+        newforms = abelian_variety.newform_decomposition('a')
 
         factors = [newform.lseries(embedding=i, prec=prec)
                 for newform in newforms
