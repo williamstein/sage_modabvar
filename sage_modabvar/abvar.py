@@ -62,6 +62,7 @@ from sage.functions.other       import real
 
 from copy import copy
 
+import constructor
 import homology
 import homspace
 import lseries
@@ -554,6 +555,25 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             ValueError: self must be simple
         """
         return Newform(self.newform_label(), names=names)
+
+    def newform_decomposition(self, names=None):
+        """
+        Return the newforms of the simple subvarieties in the decomposition of
+        self as a product of simple subvarieties, up to isogeny.
+
+        OUTPUT:
+
+            - an array of newforms
+
+        EXAMPLES::
+
+            sage: from sage_modabvar import J0, J1
+            sage: J = J1(11) * J0(23)
+            sage: J.newform_decomposition('a')
+            [q - 2*q^2 - q^3 + 2*q^4 + q^5 + O(q^6),
+            q + a0*q^2 + (-2*a0 - 1)*q^3 + (-a0 - 1)*q^4 + 2*a0*q^5 + O(q^6)]
+        """
+        return [S.newform(names=names) for S in self.decomposition()]
 
     def newform_label(self):
         """
@@ -2372,8 +2392,10 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         if not is_prime(p):
             raise ValueError("p must be prime")
         if not self.is_simple():
+            decomp = [constructor.AbelianVariety(f) for f in
+                      self.newform_decomposition('a')]
             return prod((s.frobenius_polynomial(p) for s in
-                         self.decomposition()))
+                         decomp))
         f = self.newform('a')
         Kf = f.base_ring()
         eps = f.character()
