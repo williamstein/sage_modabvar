@@ -1796,14 +1796,34 @@ class ModularAbelianVariety_abstract(ParentWithBase):
 
         EXAMPLES::
 
-            sage: from sage_modabvar import J0
+            sage: from sage_modabvar import J0, J1
+
             sage: A = J0(23)
             sage: A.conductor().factor()
             23^2
-            sage: from sage_modabvar import J1
+
             sage: A = J1(25)
             sage: A.conductor().factor()
             5^24
+
+            sage: A = J0(11^2); A.decomposition()
+            [
+            Simple abelian subvariety 11a(1,121) of dimension 1 of J0(121),
+            Simple abelian subvariety 11a(11,121) of dimension 1 of J0(121),
+            Simple abelian subvariety 121a(1,121) of dimension 1 of J0(121),
+            Simple abelian subvariety 121b(1,121) of dimension 1 of J0(121),
+            Simple abelian subvariety 121c(1,121) of dimension 1 of J0(121),
+            Simple abelian subvariety 121d(1,121) of dimension 1 of J0(121)
+            ]
+            sage: A.conductor().factor()
+            11^10
+
+            sage: A = J0(33)[0]; A
+            Simple abelian subvariety 11a(1,33) of dimension 1 of J0(33)
+            sage: A.conductor()
+            11
+            sage: A.elliptic_curve().conductor()
+            11
         """
         if not self.base_ring() == QQ:
             raise ValueError("base ring must be QQ")
