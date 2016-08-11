@@ -1807,10 +1807,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         """
         if not self.base_ring() == QQ:
             raise ValueError("base ring must be QQ")
-        if self.is_simple():
-            return self.newform_level()[0] ** self.dimension()
-        else:
-            return prod(A.conductor() for A in self.decomposition())
+        return prod(f.level() ** f.base_ring().degree()
+                    for f in self.newform_decomposition('a'))
 
     def rank(self):
         """
@@ -2056,9 +2054,9 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         except AttributeError:
             if none_if_not_known:
                 return None
-            N = [A.newform_level() for A in self.decomposition()]
-            level = LCM([z[0] for z in N])
-            groups = sorted(set([z[1] for z in N]))
+            level = LCM([f.level() for f in self.newform_decomposition('a')])
+            groups = sorted(set([f.group() for f in
+                                 self.newform_decomposition('a')]))
             if len(groups) == 1:
                 groups = groups[0]
             self.__newform_level = level, groups
@@ -2322,9 +2320,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         if self.dimension() == 0:
             return ZZ(1)
 
-        # The rank is positive if at least one simple has positive rank
-        positive_rank = any(simple.lseries().vanishes_at_1()
-                for simple in self.decomposition())
+        positive_rank = self.lseries().vanishes_at_1()
 
         if positive_rank:
             return infinity
@@ -3329,7 +3325,7 @@ class ModularAbelianVariety_abstract(ParentWithBase):
         except AttributeError:
             if none_if_not_known:
                 return None
-            self.__is_simple = len(self.decomposition()) <= 1
+            self.__is_simple = len(self.newform_decomposition('a')) <= 1
             return self.__is_simple
 
     def decomposition(self, simple=True, bound=None):
