@@ -32,6 +32,8 @@ from sage.modular.modform.constructor import Newform, CuspForms
 from sage.modular.arithgroup.congroup_gamma0 import is_Gamma0
 from sage.misc.misc_c import prod
 
+import constructor
+
 class Lseries(SageObject):
     """
     Base class for `L`-series attached to modular abelian varieties.
@@ -226,6 +228,10 @@ class Lseries_complex(Lseries):
         # Check for easy dimension zero case
         if abelian_variety.dimension() == 0:
             return False
+        if not abelian_variety.is_simple():
+            decomp = (constructor.AbelianVariety(f) for f in
+                      abelian_variety.newform_decomposition('a'))
+            return any(S.lseries().vanishes_at_1() for S in decomp)
         modular_symbols = abelian_variety.modular_symbols()
         Phi = modular_symbols.rational_period_mapping()
         ambient_module = modular_symbols.ambient_module()

@@ -103,6 +103,7 @@ from sage.misc.misc_c               import prod
 # Imports local to our abvar package
 from torsion_point   import TorsionPoint
 from finite_subgroup import FiniteSubgroup
+import constructor
 
 class RationalTorsionSubgroup(FiniteSubgroup):
     """
@@ -464,7 +465,8 @@ class RationalTorsionSubgroup(FiniteSubgroup):
                 f = A.hecke_polynomial(p)
                 b = ZZ(f(p+1))
             else:
-                D = A.decomposition()
+                D = [constructor.AbelianVariety(f) for f in
+                     A.newform_decomposition('a')]
                 b = 1
                 for simple in D:
                     G = simple.newform_level()[1]
