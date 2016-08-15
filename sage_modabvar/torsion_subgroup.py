@@ -209,13 +209,6 @@ class RationalTorsionSubgroup(FiniteSubgroup):
         except AttributeError:
             pass
 
-        # return the order of the cuspidal subgroup in the J0(p) case
-        A = self.abelian_variety()
-        if (A.is_ambient() and len(A.groups()) == 1 and
-                is_Gamma0(A.group()) and A.level().is_prime()):
-            self._order = QQ((A.level()-1)/12).numerator()
-            return self._order
-
         O = self.possible_orders()
         if len(O) == 1:
             n = O[0]
@@ -292,13 +285,23 @@ class RationalTorsionSubgroup(FiniteSubgroup):
             sage: from sage_modabvar import J1
             sage: J1(13).rational_torsion_subgroup().possible_orders()
             [19]
-            sage: J1(15).rational_torsion_subgroup().possible_orders()
-            [1, 2, 4, 8]
+            sage: J1(16).rational_torsion_subgroup().possible_orders()
+            [1, 2, 4, 5, 10, 20]
         """
         try:
             return self._possible_orders
         except AttributeError:
             pass
+
+        # return the order of the cuspidal subgroup in the J0(p) case
+        A = self.abelian_variety()
+        if A.is_J0() and A.level().is_prime():
+            self._order = QQ((A.level()-1)/12).numerator()
+            return [self._order]
+
+        if A.dimension() == 1:
+            return [A.elliptic_curve().torsion_order()]
+
         u = self.multiple_of_order()
         l = self.divisor_of_order()
 
