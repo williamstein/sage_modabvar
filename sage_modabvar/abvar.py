@@ -2330,11 +2330,10 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: J1(17).number_of_rational_points()
             584
 
-            sage: J1(14).number_of_rational_points()
+            sage: J1(16).number_of_rational_points()
             Traceback (most recent call last):
             ...
-            RuntimeError: Unable to compute order of torsion subgroup (it is in [1, 2, 3, 6])
-
+            RuntimeError: Unable to compute order of torsion subgroup (it is in [1, 2, 4, 5, 10, 20])
         """
         # Check easy dimension zero case
         if self.dimension() == 0:
@@ -2823,7 +2822,8 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             sage: A = J.new_subvariety()
             sage: A
             Abelian subvariety of dimension 1 of J0(33)
-            sage: t = A.rational_torsion_subgroup()
+            sage: t = A.rational_torsion_subgroup(); t
+            Torsion subgroup of Abelian subvariety of dimension 1 of J0(33)
             sage: t.multiple_of_order()
             4
             sage: t.divisor_of_order()
@@ -2832,8 +2832,6 @@ class ModularAbelianVariety_abstract(ParentWithBase):
             4
             sage: t.gens()
             [[(1/2, 0, 0, -1/2, 0, 0)], [(0, 0, 1/2, 0, 1/2, -1/2)]]
-            sage: t
-            Torsion subgroup of Abelian subvariety of dimension 1 of J0(33)
         """
         try:
             return self.__rational_torsion_subgroup
